@@ -2,6 +2,7 @@
 #define LIBLEGE_LEGE_H
 
 #include <stdbool.h>
+#include <stddef.h>
 
 // LEGE header version
 #mesondefine LEGE_VERSION_STRING
@@ -38,8 +39,15 @@ typedef enum {
 
 LEGE_PUBLIC lege_engine_t lege_engine_new(void);
 LEGE_PUBLIC void lege_engine_free(lege_engine_t engine);
+
 LEGE_PUBLIC bool lege_engine_set_string(lege_engine_t engine, lege_option_t opt,
                                         const char *str);
+
+LEGE_PUBLIC bool lege_engine_load(lege_engine_t engine, const char *buff,
+                                  size_t sz, const char *name);
+#define lege_engine_load_literal(engine, str, name)                            \
+  lege_engine_load((engine), (str), sizeof((str)) - 1, (name))
+
 LEGE_PUBLIC void lege_engine_run(lege_engine_t engine);
 
 #ifdef __cplusplus
