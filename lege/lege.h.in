@@ -1,0 +1,49 @@
+#ifndef LIBLEGE_LEGE_H
+#define LIBLEGE_LEGE_H
+
+#include <stdbool.h>
+
+// LEGE header version
+#mesondefine LEGE_VERSION_STRING
+#mesondefine LEGE_VERSION_MAJOR
+#mesondefine LEGE_VERSION_MINOR
+#mesondefine LEGE_VERSION_PATCH
+#define LEGE_VERSION                                                           \
+  (LEGE_VERSION_MAJOR << 16) | (LEGE_VERSION_MINOR << 8) | LEGE_VERSION_PATCH
+
+#if defined _WIN32 || defined __CYGWIN__
+#ifdef BUILDING_LIBLEGE
+#define LEGE_PUBLIC __declspec(dllexport)
+#else
+#define LEGE_PUBLIC __declspec(dllimport)
+#endif
+#else
+#ifdef BUILDING_LIBLEGE
+#define LEGE_PUBLIC __attribute__((visibility("default")))
+#else
+#define LEGE_PUBLIC
+#endif
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct lege_engine *lege_engine_t;
+
+typedef enum {
+  LEGE_OPTION_APP_NAME = 1,
+  LEGE_OPTION_ORG_NAME = 2,
+} lege_option_t;
+
+LEGE_PUBLIC lege_engine_t lege_engine_new(void);
+LEGE_PUBLIC void lege_engine_free(lege_engine_t engine);
+LEGE_PUBLIC bool lege_engine_set_string(lege_engine_t engine, lege_option_t opt,
+                                        const char *str);
+LEGE_PUBLIC void lege_engine_run(lege_engine_t engine);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

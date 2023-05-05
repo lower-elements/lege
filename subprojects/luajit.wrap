@@ -1,0 +1,8 @@
+[wrap-git]
+url = https://github.com/franko/luajit
+revision=v2.1
+diff_files = luajit.patch
+
+[provide]
+luajit = lua_dep
+
