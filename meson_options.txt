@@ -1,1 +1,2 @@
+option('build_cli', type: 'boolean', value: true, description: 'Build the lege commandline utility')
 option('build_examples', type: 'boolean', value: false, description: 'Build the liblege examples')

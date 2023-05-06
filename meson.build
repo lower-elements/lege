@@ -8,6 +8,10 @@ abi_version = 0
 
 subdir('lege')
 
+if get_option('build_cli')
+  subdir('cli')
+endif
+
 if get_option('build_examples')
   subdir('examples')
 endif
