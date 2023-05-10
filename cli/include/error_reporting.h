@@ -4,11 +4,13 @@
 #include <stdarg.h>
 #include <stdnoreturn.h>
 
-void warn(const char *fmt, ...);
-void vwarn(const char *fmt, va_list args);
-void error(const char *fmt, ...);
-void verror(const char *fmt, va_list args);
-noreturn void fatal(const char *fmt, ...);
+#include "util.h"
+
+void warn(const char *fmt, ...) LEGE_PRINTF(1, 2);
+void vwarn(const char *fmt, va_list args) LEGE_PRINTF_VARARGS(1);
+void error(const char *fmt, ...) LEGE_PRINTF(1, 2);
+void verror(const char *fmt, va_list args) LEGE_PRINTF_VARARGS(1);
+noreturn void fatal(const char *fmt, ...) LEGE_PRINTF(1, 2);
 
 #define fatal_cleanup(label, ...)                                              \
   do {                                                                         \

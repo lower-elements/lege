@@ -53,6 +53,16 @@
 #define LEGE_RETURNS_NONNULL
 #endif
 
+#if LEGE_HAS_ATTRIBUTE(format)
+#define LEGE_PRINTF(str_idx, args_idx)                                         \
+  __attribute__((format(printf, (str_idx), (args_idx))))
+#define LEGE_PRINTF_VARARGS(str_idx)                                           \
+  __attribute__((format(printf, (str_idx), 0)))
+#else
+#define LEGE_PRINTF(str_idx, args_idx)
+#define LEGE_PRINTF_VARARGS(str_idx)
+#endif
+
 // Memory allocation
 // Functions / macros with an `x` return NULL on failure, the others abort().
 #define lege_xmalloc malloc
