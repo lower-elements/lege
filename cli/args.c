@@ -22,6 +22,7 @@ static const char *const HELP_TEXT =
     "  --version                 Print program version and exit\n\n"
     "Subcommands:\n"
     "  help                      Print this help and exit\n"
+    "  run                       Run a LEGE application without compiling it\n"
     "  -version                  Print program version and exit\n\n"
     "Report bugs to Michael Connor Buchan <mikey@blindcomputing.org>\n";
 
@@ -61,6 +62,7 @@ static const struct subcommand {
   void (*run)(struct optparse *);
 } SUBCOMMANDS[] = {
     {.name = "help", .run = cmd_help},
+    {.name = "run", .run = cmd_run},
     {.name = "version", .run = cmd_version},
     {0},
 };
