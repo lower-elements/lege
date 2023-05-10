@@ -1,6 +1,7 @@
 cli_sources = [
   'args.c',
   'cmd_run.c',
+  'error_reporting.c',
   'main.c',
   'optparse.c',
 ]

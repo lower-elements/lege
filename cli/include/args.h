@@ -1,6 +1,8 @@
 #ifndef LEGE_CLI_ARGS_H
 #define LEGE_CLI_ARGS_H
 
+#include <optparse.h>
+
 extern const char *PROG_NAME;
 
 void parse_global_opts(struct optparse *opts);

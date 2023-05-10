@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "args.h"
+#include "error_reporting.h"
 
 const char *PROG_NAME = "lege";
 
@@ -40,7 +41,7 @@ void parse_global_opts(struct optparse *opts) {
       printf(HELP_TEXT, PROG_NAME);
       exit(EXIT_SUCCESS);
     default:
-      fprintf(stderr, "%s: Error: %s\n", PROG_NAME, opts->errmsg);
+      error("%s", opts->errmsg);
       fprintf(stderr, HELP_TEXT, PROG_NAME);
       exit(EXIT_FAILURE);
     }
@@ -78,7 +79,6 @@ void run_subcommand(struct optparse *opts) {
         return;
       }
     }
-  fprintf(stderr, "%s: Error: Unknown subcommand -- '%s'\n", PROG_NAME,
-          subcommand);
+  error("Unknown subcommand -- '%s'", subcommand);
   printf(HELP_TEXT, PROG_NAME);
 }

@@ -8,14 +8,15 @@
 #include <stdlib.h>
 
 #include "args.h"
+#include "error_reporting.h"
 #include "util.h"
 
 bool get_and_check_type(lua_State *L, int tbl, const char *key, int type) {
   lua_pushstring(L, key);
   lua_gettable(L, tbl);
   if (lua_type(L, -1) != type) {
-    fprintf(stderr, "%s: Error: Expected \"%s\" to be a %s, got %s\n",
-            PROG_NAME, key, lua_typename(L, type), luaL_typename(L, -1));
+    error("Expected \"%s\" to be a %s, got %s", key, lua_typename(L, type),
+          luaL_typename(L, -1));
     return false;
   }
   return true;
@@ -27,8 +28,7 @@ void cmd_run(struct optparse *opts) {
   // Create Lua state
   lua_State *L = luaL_newstate();
   if (!L) {
-    fprintf(stderr, "%s: Error: Failed to create Lua state\n", PROG_NAME);
-    exit(EXIT_FAILURE);
+    fatal(" Failed to create Lua state");
   }
   luaL_openlibs(L);
 
@@ -36,8 +36,7 @@ void cmd_run(struct optparse *opts) {
   int res = luaL_dofile(L, "project.lua");
   // Todo: Better error handling here
   if (res != LUA_OK) {
-    fprintf(stderr, "%s: Error: Failed to load \"project.lua\"\n", PROG_NAME);
-    goto close_lua;
+    fatal_cleanup(close_lua, "Failed to load \"project.lua\"");
   }
 
   // Get the project table
@@ -61,18 +60,15 @@ void cmd_run(struct optparse *opts) {
   // Create the engine
   lege_engine_t engine = lege_engine_new();
   if (!engine) {
-    fprintf(stderr, "%s: Error: Failed to create LEGE engine\n", PROG_NAME);
-    goto close_lua;
+    fatal_cleanup(close_lua, "Failed to create LEGE engine");
   }
 
   // Set engine properties
   if (!lege_engine_set_string(engine, LEGE_OPTION_APP_NAME, name)) {
-    fprintf(stderr, "%s: Error: Could not set application name\n", PROG_NAME);
-    goto free_engine;
+    fatal_cleanup(free_engine, "Could not set application name");
   }
   if (!lege_engine_set_string(engine, LEGE_OPTION_ORG_NAME, org)) {
-    fprintf(stderr, "%s: Error: Could not set organization name\n", PROG_NAME);
-    goto free_engine;
+    fatal_cleanup(free_engine, "Could not set organization name");
   }
 
   // Preload other scripts (if any)
@@ -86,18 +82,16 @@ void cmd_run(struct optparse *opts) {
       lege_engine_preload_file(engine, fname, fname);
     }
   } else {
-    fprintf(stderr,
-            "%s: Error: Expected \"preload\" to be a table or nil, got %s\n",
-            PROG_NAME, luaL_typename(L, -1));
-    goto free_engine;
+    fatal_cleanup(free_engine,
+                  "Expected \"preload\" to be a table or nil, got %s",
+                  luaL_typename(L, -1));
   }
 
   // Load the entrypoint script
 load_entrypoint:
   if (!lege_engine_load_file(engine, entrypoint)) {
-    fprintf(stderr, "%s: Error: Failed to load entrypoint from \"%s\"\n",
-            PROG_NAME, entrypoint);
-    goto free_engine;
+    fatal_cleanup(free_engine, "Failed to load entrypoint from \"%s\"",
+                  entrypoint);
   }
 
   lege_engine_run(engine);
