@@ -73,15 +73,34 @@ void cmd_run(struct optparse *opts) {
 
   // Preload other scripts (if any)
   lua_getglobal(L, "preload");
-  if (lua_isnil(L, 5)) {
+  switch (lua_type(L, 5)) {
+  case LUA_TNONE:
+  case LUA_TNIL:
     goto load_entrypoint;
-  } else if (lua_istable(L, 5)) {
+  case LUA_TTABLE:
     // Preload each file
     ll_for_each_pair(L, 5) {
       const char *fname = lua_tostring(L, -1);
-      lege_engine_preload_file(engine, fname, fname);
+      // Get the package name
+      const char *pkg_name = fname;
+      if (lua_type(L, -2) == LUA_TSTRING) {
+        pkg_name = lua_tostring(L, -2);
+      } else if (!lua_isnumber(L, -2)) {
+        warn("Found a key of type %s in \"preload\", skipping it",
+             luaL_typename(L, -2));
+        continue;
+      }
+      // Read the Lua file into a buffer
+      size_t size;
+      const char *buf = lege_read_to_buf(fname, &size);
+      if (!buf) {
+        fatal_cleanup(free_engine, "Failed to preload \"%s\"", fname);
+      }
+      // Tell the engine to preload it
+      lege_engine_preload(engine, buf, size, pkg_name);
     }
-  } else {
+    break;
+  default:
     fatal_cleanup(free_engine,
                   "Expected \"preload\" to be a table or nil, got %s",
                   luaL_typename(L, -1));
