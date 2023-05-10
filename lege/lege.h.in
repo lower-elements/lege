@@ -47,11 +47,14 @@ LEGE_PUBLIC bool lege_engine_load(lege_engine_t engine, const char *buff,
                                   size_t sz, const char *name);
 #define lege_engine_load_literal(engine, str, name)                            \
   lege_engine_load((engine), (str), sizeof((str)) - 1, (name))
+LEGE_PUBLIC bool lege_engine_load_file(lege_engine_t engine, const char *fname);
 
 LEGE_PUBLIC void lege_engine_preload(lege_engine_t engine, const char *buff,
                                      size_t sz, const char *name);
 #define lege_engine_preload_literal(engine, str, name)                         \
   lege_engine_preload((engine), (str), sizeof((str)) - 1, (name))
+LEGE_PUBLIC void lege_engine_preload_file(lege_engine_t engine,
+                                          const char *fname, const char *name);
 
 LEGE_PUBLIC void lege_engine_run(lege_engine_t engine);
 

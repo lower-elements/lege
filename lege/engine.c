@@ -62,7 +62,11 @@ bool lege_engine_set_string(lege_engine_t engine, lege_option_t opt,
 
 bool lege_engine_load(lege_engine_t engine, const char *buff, size_t sz,
                       const char *name) {
-  return luaL_loadbuffer(engine->L, buff, sz, name) != 0;
+  return luaL_loadbuffer(engine->L, buff, sz, name) == LUA_OK;
+}
+
+bool lege_engine_load_file(lege_engine_t engine, const char *fname) {
+  return luaL_loadfile(engine->L, fname) == LUA_OK;
 }
 
 static int load_preloaded(lua_State *L) {
@@ -93,6 +97,26 @@ void lege_engine_preload(lege_engine_t engine, const char *buff, size_t sz,
   lua_pushstring(engine->L, name);
   // Load code from the buffer, storing it as a function at the stack top
   luaL_loadbuffer(engine->L, buff, sz, name);
+  // Construct a closure with the two top stack items
+  // This closure runs the preloaded code, hense loading the package
+  lua_pushcclosure(engine->L, load_preloaded, 2);
+  // package.preload[name] = closure
+  lua_rawset(engine->L, -3);
+}
+
+void lege_engine_preload_file(lege_engine_t engine, const char *fname,
+                              const char *name) {
+  (void)name;
+  // Get the package.preload table
+  lua_getglobal(engine->L, "package");
+  lua_pushliteral(engine->L, "preload");
+  lua_rawget(engine->L, -2);
+  // Push the key we want to set on package.preload
+  lua_pushstring(engine->L, fname);
+  // Push it again, as it's the first upvalue for our preload closure
+  lua_pushstring(engine->L, fname);
+  // Load code from the buffer, storing it as a function at the stack top
+  luaL_loadfile(engine->L, fname);
   // Construct a closure with the two top stack items
   // This closure runs the preloaded code, hense loading the package
   lua_pushcclosure(engine->L, load_preloaded, 2);
