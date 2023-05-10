@@ -64,6 +64,10 @@ void *lege_calloc(size_t nmem, size_t size) LEGE_MALLOC
 #define lege_new(type) ((type *)lege_malloc(sizeof(type)))
 #define lege_xnew(type) ((type *)lege_malloc(sizeof(type)))
 
+// I/O helpers
+char *lege_read_to_buf(const char *fname, size_t *bufsize) LEGE_MALLOC
+    LEGE_DEALLOC(lege_free);
+
 // Lua helpers
 // ll = LEGE Lua
 #define ll_for_each_pair(L, T)                                                 \
