@@ -1,8 +1,6 @@
+#include "util.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "lege.h"
-#include "util.h"
 
 LEGE_MALLOC LEGE_ALLOC_SIZE(1) LEGE_RETURNS_NONNULL
     LEGE_DEALLOC(lege_free) void *lege_malloc(size_t size) {

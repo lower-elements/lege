@@ -4,6 +4,7 @@ project('lege', 'c',
   default_options: ['warning_level=3', 'c_std=c17'],
 )
 
+subdir('util')
 abi_version = 0
 
 subdir('lege')

@@ -3,8 +3,6 @@
 
 #include <stdlib.h>
 
-#include "lege.h"
-
 /**
  * Check if the compiler supports a certain attribute / builtin.
  * Compilers that lack __has_attribute may object to
@@ -55,6 +53,7 @@
 #define LEGE_RETURNS_NONNULL
 #endif
 
+// Memory allocation
 // Functions / macros with an `x` return NULL on failure, the others abort().
 #define lege_xmalloc malloc
 #define lege_free free
@@ -64,5 +63,10 @@ void *lege_calloc(size_t nmem, size_t size) LEGE_MALLOC
     LEGE_ALLOC_SIZE2(1, 2) LEGE_RETURNS_NONNULL LEGE_DEALLOC(lege_free);
 #define lege_new(type) ((type *)lege_malloc(sizeof(type)))
 #define lege_xnew(type) ((type *)lege_malloc(sizeof(type)))
+
+// Lua helpers
+// ll = LEGE Lua
+#define ll_for_each_pair(L, T)                                                 \
+  for (lua_pushnil((L)); lua_next((L), (T)) != 0; lua_pop((L), 1))
 
 #endif

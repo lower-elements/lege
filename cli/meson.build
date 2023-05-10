@@ -7,6 +7,7 @@ cli_sources = [
 cli_incdir = include_directories('include')
 cli_deps = [
   lege_dep,
+  util_dep,
   dependency('luajit', fallback: ['luajit', 'lua_dep']),
   ]
 

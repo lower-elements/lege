@@ -8,6 +8,7 @@
 #include <stdlib.h>
 
 #include "args.h"
+#include "util.h"
 
 bool get_and_check_type(lua_State *L, int tbl, const char *key, int type) {
   lua_pushstring(L, key);
@@ -80,7 +81,7 @@ void cmd_run(struct optparse *opts) {
     goto load_entrypoint;
   } else if (lua_istable(L, 5)) {
     // Preload each file
-    for (lua_pushnil(L); lua_next(L, 5) != 0; lua_pop(L, 1)) {
+    ll_for_each_pair(L, 5) {
       const char *fname = lua_tostring(L, -1);
       lege_engine_preload_file(engine, fname, fname);
     }

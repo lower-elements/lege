@@ -10,12 +10,12 @@ cfg_h = configure_file(input: 'lege.h.in', output: 'lege.h', configuration: cfg)
 
 lege_cflags = ['-DBUILDING_LIBLEGE']
 lege_deps = [
+  util_dep,
   dependency('luajit', fallback: ['luajit', 'lua_dep'])
   ]
 lege_srcs = [
   cfg_h,
   'engine.c',
-  'util.c',
   ]
 lege_priv_incdir = include_directories('include')
 lege_pub_incdir = include_directories('.')
