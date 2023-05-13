@@ -10,8 +10,9 @@ cfg_h = configure_file(input: 'lege.h.in', output: 'lege.h', configuration: cfg)
 
 lege_cflags = ['-DBUILDING_LIBLEGE']
 lege_deps = [
+  hedley_dep,
   util_dep,
-  dependency('luajit', fallback: ['luajit', 'lua_dep'])
+  dependency('luajit', fallback: ['luajit', 'lua_dep']),
   ]
 lege_srcs = [
   cfg_h,

@@ -1,3 +1,4 @@
+#include <hedley.h>
 #include <lauxlib.h>
 #include <lua.h>
 #include <lualib.h>
@@ -17,7 +18,7 @@ struct lege_engine {
 lege_engine_t lege_engine_new(void) {
   // Allocate the engine object
   lege_engine_t engine = lege_xnew(struct lege_engine);
-  if (UNLIKELY(!engine)) {
+  if (!engine) {
     return NULL;
   }
 
@@ -27,7 +28,7 @@ lege_engine_t lege_engine_new(void) {
 
   // Initialize the Lua state
   engine->L = luaL_newstate();
-  if (UNLIKELY(!engine->L)) {
+  if (HEDLEY_UNLIKELY(!engine->L)) {
     goto err;
   }
   luaL_openlibs(engine->L);
@@ -40,7 +41,7 @@ err:
 }
 
 void lege_engine_free(lege_engine_t engine) {
-  if (LIKELY(engine)) {
+  if (HEDLEY_LIKELY(engine)) {
     lua_close(engine->L);
     lege_free(engine);
   }

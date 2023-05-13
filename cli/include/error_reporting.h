@@ -1,16 +1,17 @@
 #ifndef LEGE_CLI_ERROR_REPORTING_H
 #define LEGE_CLI_ERROR_REPORTING_H
 
+#include <hedley.h>
 #include <stdarg.h>
 #include <stdnoreturn.h>
 
 #include "util.h"
 
-void warn(const char *fmt, ...) LEGE_PRINTF(1, 2);
-void vwarn(const char *fmt, va_list args) LEGE_PRINTF_VARARGS(1);
-void error(const char *fmt, ...) LEGE_PRINTF(1, 2);
-void verror(const char *fmt, va_list args) LEGE_PRINTF_VARARGS(1);
-noreturn void fatal(const char *fmt, ...) LEGE_PRINTF(1, 2);
+void warn(const char *fmt, ...) HEDLEY_PRINTF_FORMAT(1, 2);
+void vwarn(const char *fmt, va_list args) HEDLEY_PRINTF_FORMAT(1, 0);
+void error(const char *fmt, ...) HEDLEY_PRINTF_FORMAT(1, 2);
+void verror(const char *fmt, va_list args) HEDLEY_PRINTF_FORMAT(1, 0);
+noreturn void fatal(const char *fmt, ...) HEDLEY_PRINTF_FORMAT(1, 2);
 
 #define fatal_cleanup(label, ...)                                              \
   do {                                                                         \

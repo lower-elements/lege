@@ -4,9 +4,11 @@ project('lege', 'c',
   default_options: ['warning_level=3', 'c_std=c17'],
 )
 
-subdir('util')
 abi_version = 0
 
+hedley_dep = dependency('hedley', fallback: ['hedley', 'hedley_dep'], required: false)
+
+subdir('util')
 subdir('lege')
 
 if get_option('build_cli')
