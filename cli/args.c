@@ -16,7 +16,7 @@ static const struct optparse_long GLOBAL_OPTS[] = {
 };
 
 static const char *const HELP_TEXT =
-    "Usage: %s [global_options...] subcommand[subcommand_options...]\n\n"
+    "Usage: %s [global_options...] subcommand [subcommand_options...]\n\n"
     "Command line interface to the Lower Elements Game Engine\n\n"
     "Global Options:\n"
     "  --help                    Print this help and exit\n"
@@ -24,7 +24,7 @@ static const char *const HELP_TEXT =
     "Subcommands:\n"
     "  help                      Print this help and exit\n"
     "  run                       Run a LEGE application without compiling it\n"
-    "  -version                  Print program version and exit\n\n"
+    "  version                   Print program version and exit\n\n"
     "Report bugs to Michael Connor Buchan <mikey@blindcomputing.org>\n";
 
 void parse_global_opts(struct optparse *opts) {
