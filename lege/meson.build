@@ -17,6 +17,7 @@ lege_deps = [
 lege_srcs = [
   cfg_h,
   'engine.c',
+  'preloads.c',
   ]
 lege_priv_incdir = include_directories('include')
 lege_pub_incdir = include_directories('.')

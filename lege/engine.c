@@ -7,6 +7,7 @@
 #include <string.h>
 
 #include "lege.h"
+#include "preloads.h"
 #include "util.h"
 
 struct lege_engine {
@@ -32,6 +33,7 @@ lege_engine_t lege_engine_new(void) {
     goto err;
   }
   luaL_openlibs(engine->L);
+  lege_preload_builtins(engine->L);
 
   return engine;
 
