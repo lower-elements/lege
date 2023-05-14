@@ -1,3 +1,5 @@
+#include <SDL2/SDL_log.h>
+#include <SDL2/SDL_messagebox.h>
 #include <hedley.h>
 #include <lauxlib.h>
 #include <lua.h>
@@ -16,6 +18,13 @@ struct lege_engine {
   lua_State *L;
 };
 
+static int on_panic(lua_State *L) {
+  const char *err = lua_tostring(L, -1);
+  SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Runtime error: %s", err);
+  SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Runtime Error", err, NULL);
+  return 0;
+}
+
 lege_engine_t lege_engine_new(void) {
   // Allocate the engine object
   lege_engine_t engine = lege_xnew(struct lege_engine);
@@ -32,6 +41,7 @@ lege_engine_t lege_engine_new(void) {
   if (HEDLEY_UNLIKELY(!engine->L)) {
     goto err;
   }
+  lua_atpanic(engine->L, on_panic);
   luaL_openlibs(engine->L);
   lege_preload_builtins(engine->L);
 
