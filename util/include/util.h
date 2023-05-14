@@ -28,5 +28,11 @@ char *lege_read_to_buf(const char *fname, size_t *bufsize) HEDLEY_MALLOC;
 // ll = LEGE Lua
 #define ll_for_each_pair(L, T)                                                 \
   for (lua_pushnil((L)); lua_next((L), (T)) != 0; lua_pop((L), 1))
+#define ll_rawset_cfunc(L, tbl, key, val)                                      \
+  do {                                                                         \
+    lua_pushliteral((L), key);                                                 \
+    lua_pushcfunction((L), (val));                                             \
+    lua_rawset((L), (tbl));                                                    \
+  } while (0)
 
 #endif
