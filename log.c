@@ -66,17 +66,21 @@ static int log_critical(lua_State *L) {
   return 0;
 }
 
+static const luaL_Reg LOG_FUNCS[] = {
+    {.name = "get_priority", .func = log_get_priority},
+    {.name = "set_priority", .func = log_set_priority},
+    {.name = "message", .func = log_message},
+    {.name = "verbose", .func = log_verbose},
+    {.name = "debug", .func = log_debug},
+    {.name = "info", .func = log_info},
+    {.name = "warn", .func = log_warn},
+    {.name = "error", .func = log_error},
+    {.name = "critical", .func = log_critical},
+    {NULL, NULL},
+};
+
 int load_log_module(lua_State *L) {
-  (void)L;
-  lua_createtable(L, 0, 9);
-  ll_rawset_cfunc(L, 1, "get_priority", log_get_priority);
-  ll_rawset_cfunc(L, 1, "set_priority", log_set_priority);
-  ll_rawset_cfunc(L, 1, "message", log_message);
-  ll_rawset_cfunc(L, 1, "verbose", log_verbose);
-  ll_rawset_cfunc(L, 1, "debug", log_debug);
-  ll_rawset_cfunc(L, 1, "info", log_info);
-  ll_rawset_cfunc(L, 1, "warn", log_warn);
-  ll_rawset_cfunc(L, 1, "error", log_error);
-  ll_rawset_cfunc(L, 1, "critical", log_critical);
+  lua_createtable(L, 0, arraysize(LOG_FUNCS) - 1);
+  luaL_register(L, NULL, LOG_FUNCS);
   return 1;
 }
