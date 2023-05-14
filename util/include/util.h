@@ -10,6 +10,8 @@
 #define LEGE_ALLOC_SIZE(...)
 #endif
 
+#define arraysize(a) (sizeof(a) / sizeof((a)[0]))
+
 // Memory allocation
 // Functions / macros with an `x` return NULL on failure, the others abort().
 #define lege_xmalloc malloc
