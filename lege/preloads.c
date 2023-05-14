@@ -3,11 +3,8 @@
 
 #include "preloads.h"
 
-static const struct lege_preload {
-  const char *name;
-  lua_CFunction loader;
-} BUILTIN_PRELOADS[] = {{.name = "lege/log", .loader = load_log_module},
-                        {NULL, NULL}};
+static const luaL_Reg BUILTIN_PRELOADS[] = {
+    {.name = "lege/log", .func = load_log_module}, {NULL, NULL}};
 
 static int run_loader(lua_State *L) {
   // Check first argument (the package to load) is a string
@@ -30,14 +27,13 @@ void lege_preload_builtins(lua_State *L) {
   lua_getglobal(L, "package");
   lua_pushliteral(L, "preload");
   lua_rawget(L, -2);
-  for (const struct lege_preload *preload = BUILTIN_PRELOADS; preload->name;
-       ++preload) {
+  for (const luaL_Reg *preload = BUILTIN_PRELOADS; preload->name; ++preload) {
     // Push the key for the assignment
     lua_pushstring(L, preload->name);
     // Push it again as the first upvalue to the closure
     lua_pushvalue(L, -1);
     // Push the CFuntion as the second upvalue to the closure
-    lua_pushcfunction(L, preload->loader);
+    lua_pushcfunction(L, preload->func);
     // Create the closure
     lua_pushcclosure(L, run_loader, 2);
     // package.preload[name] = closure
