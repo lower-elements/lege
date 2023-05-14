@@ -6,7 +6,8 @@
 static const struct lege_preload {
   const char *name;
   lua_CFunction loader;
-} BUILTIN_PRELOADS[] = {{NULL, NULL}};
+} BUILTIN_PRELOADS[] = {{.name = "lege/log", .loader = load_log_module},
+                        {NULL, NULL}};
 
 static int run_loader(lua_State *L) {
   // Check first argument (the package to load) is a string

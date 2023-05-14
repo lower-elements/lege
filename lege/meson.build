@@ -13,10 +13,12 @@ lege_deps = [
   hedley_dep,
   util_dep,
   dependency('luajit', fallback: ['luajit', 'lua_dep']),
+  dependency('sdl2', fallback: ['sdl2', 'sdl2_dep']),
   ]
 lege_srcs = [
   cfg_h,
   'engine.c',
+  'modules/log.c',
   'preloads.c',
   ]
 lege_priv_incdir = include_directories('include')
