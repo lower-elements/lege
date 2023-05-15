@@ -7,5 +7,6 @@ void lege_preload_builtins(lua_State *L);
 
 // Prototypes for builtin module loader functions
 int load_log_module(lua_State *L);
+int load_strict_module(lua_State *L);
 
 #endif

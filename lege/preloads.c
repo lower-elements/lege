@@ -4,7 +4,9 @@
 #include "preloads.h"
 
 static const luaL_Reg BUILTIN_PRELOADS[] = {
-    {.name = "lege/log", .func = load_log_module}, {NULL, NULL}};
+    {.name = "lege/log", .func = load_log_module},
+    {.name = "lege/strict", .func = load_strict_module},
+    {NULL, NULL}};
 
 static int run_loader(lua_State *L) {
   // Check first argument (the package to load) is a string

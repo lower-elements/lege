@@ -19,6 +19,7 @@ lege_srcs = [
   cfg_h,
   'engine.c',
   'modules/log.c',
+  'modules/strict.c',
   'preloads.c',
   ]
 lege_priv_incdir = include_directories('include')
