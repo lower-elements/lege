@@ -1,4 +1,4 @@
-local log = require "lege/log"
+local log = require "lege.log"
 
 log.info("Log priority is currently set to " .. log.get_priority())
 log.verbose("So you won't see this")
