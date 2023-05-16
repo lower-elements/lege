@@ -79,7 +79,7 @@ static const luaL_Reg LOG_FUNCS[] = {
     {NULL, NULL},
 };
 
-int load_log_module(lua_State *L) {
+int luaopen_lege_log(lua_State *L) {
   lua_createtable(L, 0, arraysize(LOG_FUNCS) - 1);
   luaL_register(L, NULL, LOG_FUNCS);
   return 1;

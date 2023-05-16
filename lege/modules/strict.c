@@ -78,7 +78,7 @@ static int l_index(lua_State *L) {
   return 1;
 }
 
-int load_strict_module(lua_State *L) {
+int luaopen_lege_strict(lua_State *L) {
   // Get or create metatable for _G
   lua_pushvalue(L, LUA_GLOBALSINDEX);
   if (!lua_getmetatable(L, -1)) {

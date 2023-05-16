@@ -1,4 +1,4 @@
-require "lege/strict"
+require "lege.strict"
 
 -- With strict, accessing global variables from anywhere that aren't first declared is an error
 -- print("The value of x is " .. tostring(x)) -- Error: variable 'x' is not declared

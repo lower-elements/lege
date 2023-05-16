@@ -4,8 +4,8 @@
 #include "preloads.h"
 
 static const luaL_Reg BUILTIN_PRELOADS[] = {
-    {.name = "lege/log", .func = load_log_module},
-    {.name = "lege/strict", .func = load_strict_module},
+    {.name = "lege.log", .func = luaopen_lege_log},
+    {.name = "lege.strict", .func = luaopen_lege_strict},
     {NULL, NULL}};
 
 static int run_loader(lua_State *L) {
