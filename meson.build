@@ -1,6 +1,6 @@
 project('lege', 'c',
   version: '0.1.0',
-  license: 'gpl-3', # Not gpl-3-or-later
+  license: 'lgpl-3', # Not lgpl-3-or-later
   default_options: ['warning_level=3', 'c_std=c17'],
 )
 
