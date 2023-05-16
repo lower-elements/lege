@@ -1,5 +1,8 @@
 # LEGE - The Lower Elements Game Engine
 
+![License: LGPL3](https://img.shields.io/github/license/lower-elements/lege)
+![GitHub issues](https://img.shields.io/github/issues/lower-elements/lege)
+
 LEGE is a [free software][fs], [open source][os] game engine for building [audio games][ag]. Its goals, in order, are to
 be:
 
