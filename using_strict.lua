@@ -1,4 +1,4 @@
---- The "lege.strict" module prevents use of undeclared global variables.
+--- The @{lege.strict} module prevents use of undeclared global variables.
 -- Since all undeclared global variables in Lua have the value nil by default, it can be easy to accidentally use a
 -- global variable when you really wanted to use a local variable. You might even accidentally overwrite a global
 -- variable by typoing the name of an existing local variable. The "lege.strict" module causes accesses to global
