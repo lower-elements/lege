@@ -7,12 +7,26 @@
 #include "preloads.h"
 
 /**
- * checks uses of undeclared global variables
+ * checks uses of undeclared global variables.
  * All global variables must be 'declared' through a regular assignment
  * (even assigning nil will do) in a main chunk before being used
  * anywhere or assigned to inside a function.
  *
  * This is a C API port of "strict.lua" from the Lua distribution
+ * @usage
+ * require "lege.strict"
+ *
+ * -- With strict, accessing global variables from anywhere that aren't first
+ * declared is an error
+ * -- print("The value of x is " .. tostring(x))
+ *  --> Error: variable 'x' is not declared
+ *
+ * -- You declare global variables anywhere in a main chunk (I.E. not in a
+ * function)
+ * -- They can be set to anything, even nil!
+ * x = nil
+ * print("The value of x is " .. tostring(x)) --> The value of x is nil
+ * @module lege.strict
  */
 
 static const char *what(lua_State *L) {
