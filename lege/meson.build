@@ -19,6 +19,7 @@ lege_srcs = [
   cfg_h,
   'engine.c',
   'modules/log.c',
+  'modules/readonly.c',
   'modules/strict.c',
   'preloads.c',
   ]
