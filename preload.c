@@ -1,3 +1,7 @@
+/**
+ * Shows how to preload Lua modules into a LEGE engine.
+ */
+
 #include <lege.h>
 #include <stdio.h>
 

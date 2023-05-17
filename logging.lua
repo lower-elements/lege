@@ -1,3 +1,7 @@
+--- Example of LEGE's logging facilities via the "lege.log" module
+-- Logging can be useful when debugging your application, or to provide the user with information they can use when
+-- filing a bug report.
+
 local log = require "lege.log"
 
 log.info("Log priority is currently set to " .. log.get_priority())

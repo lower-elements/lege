@@ -1,3 +1,7 @@
+/**
+ * Shows how to initialize a LEGE engine and load some Lua code into it.
+ */
+
 #include <lege.h>
 #include <stdio.h>
 
