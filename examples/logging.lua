@@ -1,4 +1,4 @@
---- Example of LEGE's logging facilities via the "lege.log" module
+--- Example of LEGE's logging facilities via the @{lege.log} module
 -- Logging can be useful when debugging your application, or to provide the user with information they can use when
 -- filing a bug report.
 
