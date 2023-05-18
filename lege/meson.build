@@ -37,3 +37,16 @@ lege_lib = library('lege',
   )
 
 lege_dep = declare_dependency(link_with: lege_lib, include_directories: lege_pub_incdir)
+
+lege_abi = '@0@-@1@'.format(meson.project_name(), abi_version)
+install_headers(cfg_h, subdir: lege_abi)
+
+pkgconf = import('pkgconfig')
+pkgconf.generate(lege_lib,
+  name: meson.project_name(),
+  version: meson.project_version(),
+  description: 'The Lower Elements Game Engine',
+  url: 'https://github.com/lower-elements/lege',
+  filebase: lege_abi,
+  subdirs: lege_abi,
+)
