@@ -39,6 +39,7 @@ void cmd_run(struct optparse *opts) {
     fatal_cleanup(close_lua, "Failed to load \"project.lua\"");
   }
 
+  lua_settop(L, 0);
   // Get the project table
   if (!get_and_check_type(L, LUA_GLOBALSINDEX, "project", LUA_TTABLE)) {
     goto close_lua;
