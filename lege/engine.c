@@ -46,6 +46,8 @@ lege_engine_t lege_engine_new(void) {
   lua_atpanic(engine->L, on_panic);
   luaL_openlibs(engine->L);
   lege_preload_builtins(engine->L);
+  lua_settop(engine->L, 0);
+  lua_pushcfunction(engine->L, on_panic);
 
   return engine;
 
@@ -141,5 +143,5 @@ void lege_engine_preload_file(lege_engine_t engine, const char *fname,
 
 void lege_engine_run(lege_engine_t engine) {
   printf("Starting %s.%s\n", engine->org_name, engine->app_name);
-  lua_call(engine->L, 0, 0);
+  lua_pcall(engine->L, 0, 0, 1);
 }
