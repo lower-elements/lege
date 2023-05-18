@@ -15,6 +15,14 @@ be:
 [os]: <https://en.wikipedia.org/wiki/Open_source>
 [ag]: https://en.wikipedia.org/wiki/Audio_game<https://en.wikipedia.org/wiki/Audio_game>
 
+## Under Active and Early Development
+
+This software is under active development and is in an early state. Everything described in this readme is aspirational,
+and not necessarily representative of LEGE as it stands today. If you'd like to help, we love getting [pull
+requests][pr].
+
+[pr]: <https://github.com/lower-elements/lege/pull/new>
+
 ## Easy to Use
 
 LEGE uses the [Lua programming language][lua]: "a powerful, efficient, lightweight, embeddable scripting language." It
