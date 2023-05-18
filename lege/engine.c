@@ -20,8 +20,10 @@ struct lege_engine {
 
 static int on_panic(lua_State *L) {
   const char *err = lua_tostring(L, -1);
-  SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Runtime error: %s", err);
-  SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Runtime Error", err, NULL);
+  luaL_traceback(L, L, err, 0);
+  const char *tb = lua_tostring(L, -1);
+  SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Runtime error: %s", tb);
+  SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Runtime Error", tb, NULL);
   return 0;
 }
 
