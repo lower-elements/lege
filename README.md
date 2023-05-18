@@ -1,7 +1,12 @@
 # LEGE - The Lower Elements Game Engine
 
-![License: LGPL3](https://img.shields.io/github/license/lower-elements/lege)
-![GitHub issues](https://img.shields.io/github/issues/lower-elements/lege)
+[![License: LGPL3](https://img.shields.io/github/license/lower-elements/lege)][lgpl3]
+[![Documentation](https://img.shields.io/badge/documentation-view%20Online-brightgreen)][docs]
+[![GitHub issues](https://img.shields.io/github/issues/lower-elements/lege)][issues]
+
+[lgpl3]: <https://www.gnu.org/licenses/lgpl-3.0.en.html>
+[docs]: <https://lower-elements.github.io/lege>
+[issues]: <https://github.com/lower-elements/lege/issues>
 
 LEGE is a [free software][fs], [open source][os] game engine for building [audio games][ag]. Its goals, in order, are to
 be:
@@ -71,6 +76,11 @@ performance. Our aim is to strike the perfect balance between speed and ease of 
 
 [luajit]: <https://luajit.org>
 
+
+## Documentation
+
+View the LEGE manual, API documentation, and examples on [Github Pages][docs]
+
 ## License
 
 LEGE is distributed under the terms of the [GNU Lesser General Public License 3.0][lgpl3]:
@@ -86,5 +96,3 @@ details.
 
 You should have received a copy of the GNU Lesser General Public License along with this library; if not, see
 <https://www.gnu.org/licenses/>.
-
-[lgpl3]: <https://www.gnu.org/licenses/lgpl-3.0.en.html>
