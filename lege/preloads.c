@@ -29,8 +29,7 @@ static int run_loader(lua_State *L) {
 void lege_preload_builtins(lua_State *L) {
   // Get the package.preload table
   lua_getglobal(L, "package");
-  lua_pushliteral(L, "preload");
-  lua_rawget(L, -2);
+  lua_getfield(L, -1, "preload");
   for (const luaL_Reg *preload = BUILTIN_PRELOADS; preload->name; ++preload) {
     // Push the key for the assignment
     lua_pushstring(L, preload->name);
