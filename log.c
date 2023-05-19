@@ -156,7 +156,6 @@ static const luaL_Reg LOG_FUNCS[] = {
 };
 
 int luaopen_lege_log(lua_State *L) {
-  lua_createtable(L, 0, arraysize(LOG_FUNCS) - 1);
-  luaL_register(L, NULL, LOG_FUNCS);
+  luaL_newlib(L, LOG_FUNCS);
   return 1;
 }
