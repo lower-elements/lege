@@ -1,5 +1,5 @@
-#include <SDL2/SDL_log.h>
-#include <SDL2/SDL_messagebox.h>
+#include <SDL_log.h>
+#include <SDL_messagebox.h>
 #include <hedley.h>
 #include <lauxlib.h>
 #include <lua.h>
