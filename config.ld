@@ -10,3 +10,5 @@ format = "markdown"
 topics = {"README.md"}
 file = "lege"
 examples = "examples"
+
+new_type("meta", "Meta Methods", false, "param")
