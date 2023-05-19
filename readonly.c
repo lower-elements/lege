@@ -23,7 +23,7 @@
  * -- setmetatable(consts, {})
  * --> Error: cannot change a protected metatable
  * @module lege.readonly
- * @return readonly
+ * @return A function @{readonly} for making tables readonly
  */
 
 static int l_err_readonly(lua_State *L) {
