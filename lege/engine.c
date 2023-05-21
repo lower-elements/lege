@@ -1,3 +1,4 @@
+#include <SDL_hints.h>
 #include <SDL_log.h>
 #include <SDL_messagebox.h>
 #include <hedley.h>
@@ -68,6 +69,10 @@ bool lege_engine_set_string(lege_engine_t engine, lege_option_t opt,
   switch (opt) {
   case LEGE_OPTION_APP_NAME:
     engine->app_name = str;
+    if (!SDL_SetHint(SDL_HINT_APP_NAME, str)) {
+      SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION,
+                  "Could not set application name to \"%s\"", str);
+    }
     return true;
   case LEGE_OPTION_ORG_NAME:
     engine->org_name = str;
