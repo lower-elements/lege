@@ -49,6 +49,11 @@ lege_engine_t lege_engine_new(void) {
   lege_preload_builtins(engine->L);
   lua_settop(engine->L, 0);
   lua_pushcfunction(engine->L, on_panic);
+  // Set SDL hints
+  SDL_SetHintWithPriority(SDL_HINT_IME_INTERNAL_EDITING, "1", SDL_HINT_DEFAULT);
+  SDL_SetHintWithPriority(SDL_HINT_IME_SHOW_UI, "1", SDL_HINT_DEFAULT);
+  SDL_SetHintWithPriority(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT, "1",
+                          SDL_HINT_DEFAULT);
 
   return engine;
 
