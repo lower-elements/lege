@@ -18,6 +18,7 @@ lege_deps = [
 lege_srcs = [
   cfg_h,
   'engine.c',
+  'modules/enum.c',
   'modules/log.c',
   'modules/readonly.c',
   'modules/strict.c',

@@ -4,6 +4,7 @@
 #include "preloads.h"
 
 static const luaL_Reg BUILTIN_PRELOADS[] = {
+    {.name = "lege.enum", .func = luaopen_lege_enum},
     {.name = "lege.log", .func = luaopen_lege_log},
     {.name = "lege.readonly", .func = luaopen_lege_readonly},
     {.name = "lege.strict", .func = luaopen_lege_strict},
