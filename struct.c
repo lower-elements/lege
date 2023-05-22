@@ -161,7 +161,7 @@ static int l_struct_body(lua_State *L) {
 /**
  * Create a struct type.
  * @function struct
- * @tparam string name The struct's type name (used when converting to string)
+ * @param string name The struct's type name (used when converting to string)
  * @treturn A closure over name @{struct_body} to allow you to specify the
  * struct's fields and default values
  */
