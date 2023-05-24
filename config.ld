@@ -5,8 +5,13 @@ package = "lege"
 
 title = "LEGE Documentation"
 description = "The Lower Elements Game Engine"
-format = "markdown"
+full_description = [[
+### ⚠️ Unstable APIs Ahead!
 
+This is a beta (I.E. before v1.0.0) version of LEGE. As such, all APIs are considered unstable unless otherwise noted.
+]]
+
+format = "markdown"
 topics = {"README.md"}
 file = "lege"
 examples = "examples"
