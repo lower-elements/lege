@@ -11,6 +11,7 @@
 #endif
 
 #define arraysize(a) (sizeof(a) / sizeof((a)[0]))
+#define strempty(s) (*(s) == '\0')
 
 // Memory allocation
 // Functions / macros with an `x` return NULL on failure, the others abort().
