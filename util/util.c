@@ -13,6 +13,16 @@ LEGE_ALLOC_SIZE(1) HEDLEY_RETURNS_NON_NULL void *lege_malloc(size_t size) {
   return ptr;
 }
 
+LEGE_ALLOC_SIZE(2)
+HEDLEY_RETURNS_NON_NULL void *lege_realloc(void *ptr, size_t size) {
+  void *new_ptr = realloc(ptr, size);
+  if (HEDLEY_UNLIKELY(!new_ptr)) {
+    perror("realloc");
+    abort();
+  }
+  return new_ptr;
+}
+
 HEDLEY_MALLOC LEGE_ALLOC_SIZE(1, 2) HEDLEY_RETURNS_NON_NULL
     void *lege_calloc(size_t nmem, size_t size) {
   void *ptr = calloc(nmem, size);
