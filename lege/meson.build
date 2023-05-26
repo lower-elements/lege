@@ -12,7 +12,7 @@ lege_cflags = ['-DBUILDING_LIBLEGE']
 lege_deps = [
   hedley_dep,
   util_dep,
-  dependency('luajit', fallback: ['luajit', 'lua_dep']),
+  lua_dep,
   dependency('sdl2', fallback: ['sdl2', 'sdl2_dep']),
   ]
 lege_srcs = [

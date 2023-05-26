@@ -4,7 +4,7 @@ util_srcs = [
 util_incdir = include_directories('include')
 util_deps = [
   hedley_dep,
-  dependency('luajit', fallback: ['luajit', 'lua_dep']),
+  lua_dep,
   ]
 
 util_lib = static_library('lege-util',

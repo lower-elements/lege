@@ -10,7 +10,7 @@ cli_deps = [
   hedley_dep,
   lege_dep,
   util_dep,
-  dependency('luajit', fallback: ['luajit', 'lua_dep']),
+  lua_dep,
   ]
 
 cli = executable('lege',
