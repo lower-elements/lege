@@ -13,7 +13,7 @@ lege_deps = [
   hedley_dep,
   util_dep,
   lua_dep,
-  dependency('sdl2', fallback: ['sdl2', 'sdl2_dep']),
+  sdl_dep,
   ]
 lege_srcs = [
   cfg_h,

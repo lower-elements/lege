@@ -8,6 +8,7 @@ abi_version = 0
 
 hedley_dep = dependency('hedley', fallback: ['hedley', 'hedley_dep'], required: false)
   lua_dep = dependency('luajit', fallback: ['luajit', 'lua_dep'])
+  sdl_dep = dependency('sdl2', fallback: ['sdl2', 'sdl2_dep'])
 
 subdir('util')
 subdir('lege')

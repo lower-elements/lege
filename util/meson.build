@@ -5,6 +5,7 @@ util_incdir = include_directories('include')
 util_deps = [
   hedley_dep,
   lua_dep,
+  sdl_dep,
   ]
 
 util_lib = static_library('lege-util',
