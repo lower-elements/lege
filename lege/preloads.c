@@ -9,6 +9,7 @@ static const luaL_Reg BUILTIN_PRELOADS[] = {
     {.name = "lege.readonly", .func = luaopen_lege_readonly},
     {.name = "lege.strict", .func = luaopen_lege_strict},
     {.name = "lege.struct", .func = luaopen_lege_struct},
+    {.name = "utf8", .func = luaopen_utf8},
     {NULL, NULL}};
 
 static int run_loader(lua_State *L) {

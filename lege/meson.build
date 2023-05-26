@@ -20,6 +20,7 @@ lege_srcs = [
   'engine.c',
   'modules/enum.c',
   'modules/log.c',
+  'modules/lutf8lib.c',
   'modules/readonly.c',
   'modules/strict.c',
   'modules/struct.c',
