@@ -37,8 +37,8 @@ char *lege_read_to_buf(const char *fname, size_t *bufsize) HEDLEY_MALLOC;
     lua_rawset((L), (tbl));                                                    \
   } while (0)
 
-// Newer Lua has these, but LuaJIT doesn't, so add them for compatibility, in case
-// we want to allow alternative Lua implementations (fairly unlikely)
+// Newer Lua has these, but LuaJIT doesn't, so add them for compatibility, in
+// case we want to allow alternative Lua implementations (fairly unlikely)
 #ifndef luaL_pushfail
 #define luaL_pushfail(L) lua_pushnil((L))
 #endif
@@ -50,5 +50,10 @@ typedef LUA_UNSIGNED lua_Unsigned;
 #ifndef LUAMOD_API
 #define LUAMOD_API /* Empty, we don't export modules */
 #endif
+
+// UTF8 helpers
+#define UTF8_CHAR_MAX 4
+size_t lege_utf8_encode(lua_Unsigned codepoint,
+                        char (*utf8_buffer)[UTF8_CHAR_MAX]);
 
 #endif
