@@ -10,6 +10,15 @@
 #define LEGE_ALLOC_SIZE(...)
 #endif
 
+#if HEDLEY_HAS_BUILTIN(__builtin_types_compatible_p)
+#define assert_types_compatible(t1, t2)                                        \
+  SDL_COMPILE_TIME_ASSERT(__builtin_types_compatible_p((t1), (t2)))
+#else
+#define assert_types_compatible(t1, t2)                                        \
+  SDL_COMPILE_TIME_ASSERT(sizeof(t1) == sizeof(t2) &&                          \
+                          _Alignof(t1) == _Alignof(t2))
+#endif
+
 #define arraysize(a) (sizeof(a) / sizeof((a)[0]))
 #define strempty(s) (*(s) == '\0')
 
