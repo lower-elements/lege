@@ -14,4 +14,4 @@ util_lib = static_library('lege-util',
   dependencies: util_deps,
 )
 
-util_dep = declare_dependency(link_with: util_lib, include_directories: util_incdir)
+util_dep = declare_dependency(link_with: util_lib, include_directories: util_incdir, dependencies: util_deps)
