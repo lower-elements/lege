@@ -1,3 +1,4 @@
+#include <SDL_assert.h>
 #include <SDL_hints.h>
 #include <SDL_log.h>
 #include <SDL_messagebox.h>
@@ -118,6 +119,7 @@ void lege_engine_preload(lege_engine_t engine, const char *buff, size_t sz,
   lua_getglobal(engine->L, "package");
   lua_pushliteral(engine->L, "preload");
   lua_rawget(engine->L, -2);
+  SDL_assert(lua_type(engine->L, -1) == LUA_TTABLE);
   // Push the key we want to set on package.preload
   lua_pushstring(engine->L, name);
   // Push it again, as it's the first upvalue for our preload closure
@@ -153,5 +155,7 @@ void lege_engine_preload_file(lege_engine_t engine, const char *fname,
 
 void lege_engine_run(lege_engine_t engine) {
   printf("Starting %s.%s\n", engine->org_name, engine->app_name);
+  // We left the main chunk on the stack top
+  // Todo: Make this more robust by storing it in the registry
   lua_pcall(engine->L, 0, 0, 1);
 }
