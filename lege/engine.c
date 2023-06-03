@@ -7,7 +7,6 @@
 #include <lua.h>
 #include <lualib.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include <string.h>
 
 #include "lege.h"
@@ -154,7 +153,8 @@ void lege_engine_preload_file(lege_engine_t engine, const char *fname,
 }
 
 void lege_engine_run(lege_engine_t engine) {
-  printf("Starting %s.%s\n", engine->org_name, engine->app_name);
+  SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Starting %s.%s\n",
+              engine->org_name, engine->app_name);
   // We left the main chunk on the stack top
   // Todo: Make this more robust by storing it in the registry
   lua_pcall(engine->L, 0, 0, 1);
