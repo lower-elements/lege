@@ -92,6 +92,12 @@ typedef LUA_UNSIGNED lua_Unsigned;
 #ifndef LUAMOD_API
 #define LUAMOD_API /* Empty, we don't export modules */
 #endif
+#ifndef LUA_MAXINTEGER
+// I think this is correct, at least for all two's complement machines which
+// accounts for basically everything LEGE runs on, and assuming that lua_Integer
+// is a signed type?
+#define LUA_MAXINTEGER ((~(lua_Integer)0) - 1)
+#endif
 
 // UTF8 helpers
 #define UTF8_CHAR_MAX 4
