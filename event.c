@@ -1,5 +1,4 @@
-#include <SDL_assert.h>
-#include <SDL_events.h>
+#include <SDL.h>
 #include <lauxlib.h>
 #include <limits.h>
 #include <lua.h>
@@ -18,17 +17,25 @@
  * @module lege.event
  */
 
+static int l_event_trigger(lua_State *L);
+
 /**
  * Start the engine's main loop, processing events and triggering event
  * handlers.
  * @function main_loop
  */
 static int l_main_loop(lua_State *L) {
+  lua_settop(L, 0); // Discard all arguments
+  // Get the events table
+  lua_pushvalue(L, lua_upvalueindex(1));
   while (true) {
     // Handle events
     for (SDL_Event e; SDL_PollEvent(&e);) {
       switch (e.type) {
       case SDL_QUIT:
+        lua_pushcfunction(L, l_event_trigger);
+        lua_getfield(L, 1, "quit");
+        lua_call(L, 1, 0);
         return 0;
       case SDL_APP_LOWMEMORY:
         lua_gc(L, LUA_GCCOLLECT, 0);
@@ -70,7 +77,8 @@ static int l_event_tostring(lua_State *L) {
 static int l_event_push(lua_State *L) {
   luaL_checktype(L, 1, LUA_TTABLE);
   luaL_checkany(L, 2); // Any callable
-  // Todo: Possibly implement varargs to push multiple handlers at once
+  // Todo: Possibly implement varargs to push multiple handlers at
+  // once
   lua_settop(L, 2); // Discard any further values
 
   // Insert the handler at the end of the list
@@ -78,7 +86,8 @@ static int l_event_push(lua_State *L) {
   SDL_assert(new_idx < (size_t)LUA_MAXINTEGER);
   lua_rawseti(L, 1, (lua_Integer)new_idx);
 
-  // Return the index so you can remove the handler later if you wish
+  // Return the index so you can remove the handler later if you
+  // wish
   lua_pushnumber(L, (lua_Number)new_idx);
   return 1;
 }
@@ -96,16 +105,19 @@ static int l_event_push(lua_State *L) {
 static int l_event_pop(lua_State *L) {
   luaL_checktype(L, 1, LUA_TTABLE);
   int idx = luaL_checkint(L, 2);
-  // Todo: Possibly implement varargs to pop multiple handlers at once
+  // Todo: Possibly implement varargs to pop multiple handlers at
+  // once
   lua_settop(L, 2); // Discard any further values
 
-  // Save the handler at the current index to return later (will be at index 3)
+  // Save the handler at the current index to return later (will be
+  // at index 3)
   lua_rawgeti(L, 1, idx);
   if (lua_isnil(L, 3)) {
     return 0; // Return no values
   }
 
-  // Loop through the table indices, shifting each one down, until we hit nil
+  // Loop through the table indices, shifting each one down, until
+  // we hit nil
   bool keep_going = true;
   do {
     lua_rawgeti(L, 1, idx + 1);
@@ -197,13 +209,25 @@ static int l_event(lua_State *L) {
   return 1;
 }
 
-static const luaL_Reg EVENT_FUNCS[] = {
-    {.name = "Event", .func = l_event},
-    {.name = "main_loop", .func = l_main_loop},
-    {NULL, NULL},
-};
+static const char *const EVENT_NAMES[] = {"quit", NULL};
+
+static void make_events_table(lua_State *L) {
+  lua_createtable(L, 0, arraysize(EVENT_NAMES) - 1);
+  for (const char *const *name = EVENT_NAMES; *name; ++name) {
+    // Create a new Event type
+    l_event(L); // Event is at stack top
+    lua_setfield(L, -2, *name);
+  }
+}
 
 int luaopen_lege_event(lua_State *L) {
+  // Initialize the SDL event subsystem
+  if (SDL_Init(SDL_INIT_EVENTS) != 0) {
+    return luaL_error(L, "Failed to initialize event subsystem: %s",
+                      SDL_GetError());
+  }
+
+  // Create mt for Event type
   if (luaL_newmetatable(L, EVENT_MT_NAME)) {
     lua_pushliteral(L, "Event");
     lua_setfield(L, 1, "__name");
@@ -220,6 +244,17 @@ int luaopen_lege_event(lua_State *L) {
     lua_pushcfunction(L, l_event_trigger);
     lua_setfield(L, 1, "trigger");
   }
-  luaL_newlib(L, EVENT_FUNCS);
+
+  // Create and populate the event table
+  lua_createtable(L, 0, 3);
+  make_events_table(L);
+  lua_pushvalue(L, -1); // Duplicate for upvalue of l_main_loop
+  lua_setfield(L, 2, "on");
+  lua_pushcclosure(L, l_main_loop, 1);
+  lua_setfield(L, 2, "main_loop");
+  lua_pushcfunction(L, l_event);
+  lua_setfield(L, 2, "Event");
+
+  // Return the event table
   return 1;
 }
