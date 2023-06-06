@@ -1,4 +1,4 @@
---- Demonstrates the @{lege.event} module's @{Event|lege.event.Event} type.
+--- Demonstrates the @{lege.event} module's Event type.
 -- Events allow you to define actions to be performed when an event is triggered.
 
 local event = require "lege.event"
