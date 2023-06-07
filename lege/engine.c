@@ -10,14 +10,9 @@
 #include <string.h>
 
 #include "lege.h"
+#include "lege_internal.h"
 #include "preloads.h"
 #include "util.h"
-
-struct lege_engine {
-  const char *app_name;
-  const char *org_name;
-  lua_State *L;
-};
 
 static int on_panic(lua_State *L) {
   const char *err = lua_tostring(L, -1);
@@ -31,7 +26,7 @@ static int on_panic(lua_State *L) {
 lege_engine_t lege_engine_new(void) {
   // Allocate the engine object
   lege_engine_t engine = lege_xnew(struct lege_engine);
-  if (!engine) {
+  if (HEDLEY_UNLIKELY(!engine)) {
     return NULL;
   }
 
@@ -46,9 +41,13 @@ lege_engine_t lege_engine_new(void) {
   }
   lua_atpanic(engine->L, on_panic);
   luaL_openlibs(engine->L);
+  // Store a pointer to the engine in the registry
+  lua_pushlightuserdata(engine->L, engine);
+  lua_setfield(engine->L, LUA_REGISTRYINDEX, "lege.engine");
   lege_preload_builtins(engine->L);
   lua_settop(engine->L, 0);
   lua_pushcfunction(engine->L, on_panic);
+
   // Set SDL hints
   SDL_SetHintWithPriority(SDL_HINT_IME_INTERNAL_EDITING, "1", SDL_HINT_DEFAULT);
   SDL_SetHintWithPriority(SDL_HINT_IME_SHOW_UI, "1", SDL_HINT_DEFAULT);

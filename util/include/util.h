@@ -3,6 +3,7 @@
 
 #include <SDL_stdinc.h>
 #include <hedley.h>
+#include <lua.h>
 #include <stdlib.h>
 
 #if HEDLEY_HAS_ATTRIBUTE(alloc_size)
