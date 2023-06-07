@@ -5,6 +5,7 @@
 #include <luaconf.h>
 #include <stdbool.h>
 
+#include "lege_internal.h"
 #include "util.h"
 
 /**
@@ -222,10 +223,12 @@ static void make_events_table(lua_State *L) {
 
 int luaopen_lege_event(lua_State *L) {
   // Initialize the SDL event subsystem
-  if (SDL_Init(SDL_INIT_EVENTS) != 0) {
+  if (SDL_InitSubSystem(SDL_INIT_EVENTS) != 0) {
     return luaL_error(L, "Failed to initialize event subsystem: %s",
                       SDL_GetError());
   }
+  lege_engine_t engine = ll_get_engine(L);
+  engine->initialized_sdl_subsystems |= SDL_INIT_EVENTS;
 
   // Create mt for Event type
   if (luaL_newmetatable(L, EVENT_MT_NAME)) {
