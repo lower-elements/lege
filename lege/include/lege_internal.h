@@ -7,6 +7,7 @@ typedef struct lege_engine {
   const char *app_name;
   const char *org_name;
   lua_State *L;
+  int initialized_sdl_subsystems;
 } *lege_engine_t;
 
 // Get a pointer to the engine from an internal library

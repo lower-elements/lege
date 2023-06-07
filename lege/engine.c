@@ -1,7 +1,4 @@
-#include <SDL_assert.h>
-#include <SDL_hints.h>
-#include <SDL_log.h>
-#include <SDL_messagebox.h>
+#include <SDL.h>
 #include <hedley.h>
 #include <lauxlib.h>
 #include <lua.h>
@@ -63,6 +60,7 @@ err:
 
 void lege_engine_free(lege_engine_t engine) {
   if (HEDLEY_LIKELY(engine)) {
+    SDL_QuitSubSystem(engine->initialized_sdl_subsystems);
     lua_close(engine->L);
     lege_free(engine);
   }
