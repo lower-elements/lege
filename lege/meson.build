@@ -25,6 +25,7 @@ lege_srcs = [
   'modules/readonly.c',
   'modules/strict.c',
   'modules/struct.c',
+  'modules/window.c',
   'preloads.c',
   ]
 lege_priv_incdir = include_directories('include')
