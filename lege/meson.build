@@ -25,6 +25,7 @@ lege_srcs = [
   'modules/readonly.c',
   'modules/strict.c',
   'modules/struct.c',
+  'modules/weak.c',
   'modules/window.c',
   'preloads.c',
   ]

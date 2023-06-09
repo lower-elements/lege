@@ -12,6 +12,7 @@ int luaopen_lege_log(lua_State *L);
 int luaopen_lege_readonly(lua_State *L);
 int luaopen_lege_strict(lua_State *L);
 int luaopen_lege_struct(lua_State *L);
+int luaopen_lege_weak(lua_State *L);
 int luaopen_lege_window(lua_State *L);
 // Source copied directly from Lua 5.4.6
 int luaopen_utf8(lua_State *L);
