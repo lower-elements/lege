@@ -2,6 +2,8 @@
 #include <lua.h>
 #include <stddef.h>
 
+#include "modules/weak.h"
+
 /**
  * Create tables with weak references to their keys and / or values.
  * This module provides a convenience function for creating weak tables, which
@@ -19,8 +21,6 @@
  * @module lege.weak
  * @return A function, @{weak}, for constructing weak tables
  */
-
-#define MT_PREFIX "lege.weak."
 
 /**
  * Construct a weak table.
@@ -54,7 +54,7 @@ static int l_weak_constructor(lua_State *L) {
 static int l_weak(lua_State *L) {
   const char *mode = lua_tostring(L, 1);
   // Do the lookup and return a closure to create the table
-  lua_pushliteral(L, MT_PREFIX);
+  lua_pushliteral(L, WEAK_MT_PREFIX);
   lua_pushvalue(L, 1);
   lua_concat(L, 2);
   lua_rawget(L, LUA_REGISTRYINDEX);
@@ -82,7 +82,7 @@ static int l_weak_tostring(lua_State *L) {
 }
 
 #define make_mt(mode)                                                          \
-  if (luaL_newmetatable(L, MT_PREFIX #mode)) {                                 \
+  if (luaL_newmetatable(L, WEAK_MT_PREFIX #mode)) {                            \
     lua_pushliteral(L, #mode);                                                 \
     lua_setfield(L, -2, "__mode");                                             \
     lua_pushliteral(L, "weak table " #mode);                                   \
@@ -92,11 +92,15 @@ static int l_weak_tostring(lua_State *L) {
     lua_setfield(L, -2, "__tostring");                                         \
   }
 
-int luaopen_lege_weak(lua_State *L) {
+void ll_require_weak(lua_State *L) {
   // Register metatables
   make_mt(k);
   make_mt(kv);
   make_mt(v);
+}
+
+int luaopen_lege_weak(lua_State *L) {
+  ll_require_weak(L);
   lua_pushcfunction(L, l_weak);
   return 1;
 }
