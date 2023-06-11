@@ -5,6 +5,7 @@
 
 #include "lege_internal.h"
 #include "modules/weak.h"
+#include "modules/window.h"
 
 /**
  * Window creation and management.
@@ -13,12 +14,6 @@
  */
 
 static const char *const WINDOW_MT_NAME = "lege.window.Window";
-static const char *const WINDOWS_TBL_NAME = "lege.window.windows";
-
-typedef struct {
-  SDL_Window *win;
-  SDL_Renderer *ren;
-} lege_window_t;
 
 static void ll_tbl_optint(lua_State *L, int tbl, const char *key, int *out) {
   lua_getfield(L, tbl, key);
