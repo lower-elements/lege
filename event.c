@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 #include "lege_internal.h"
+#include "modules/window.h"
 #include "util.h"
 
 /**
@@ -27,8 +28,12 @@ static int l_event_trigger(lua_State *L);
  */
 static int l_main_loop(lua_State *L) {
   lua_settop(L, 0); // Discard all arguments
+                    //
   // Get the events table
   lua_pushvalue(L, lua_upvalueindex(1));
+  // Get the windows weak table
+  lua_getfield(L, LUA_REGISTRYINDEX, WINDOWS_TBL_NAME);
+
   while (true) {
     // Handle events
     for (SDL_Event e; SDL_PollEvent(&e);) {
@@ -41,7 +46,20 @@ static int l_main_loop(lua_State *L) {
       case SDL_APP_LOWMEMORY:
         lua_gc(L, LUA_GCCOLLECT, 0);
         break;
+      default:
+        SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Ignoring event with ID 0x%x",
+                    e.type);
       }
+    }
+    // Present the contents of all windows
+    // FIXME: Doesn't handle vsync on multiple windows, there isn't a great way
+    // to support this. See
+    // <https://discourse.libsdl.org/t/vsync-with-2-windows-in-sdl2/20483> We'll
+    // probs need to introduce separate threads for non-main windows, or redo
+    // the API to allow for only 1 window
+    ll_for_each_pair(L, 2) {
+      lege_window_t *win = lua_touserdata(L, -1);
+      SDL_RenderPresent(win->ren);
     }
   }
 }
