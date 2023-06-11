@@ -4,6 +4,7 @@
 #include <lua.h>
 
 #include "lege_internal.h"
+#include "modules/weak.h"
 
 /**
  * Window creation and management.
@@ -12,6 +13,7 @@
  */
 
 static const char *const WINDOW_MT_NAME = "lege.window.Window";
+static const char *const WINDOWS_TBL_NAME = "lege.window.windows";
 
 typedef struct {
   SDL_Window *win;
@@ -79,6 +81,14 @@ static int l_window(lua_State *L) {
   lua_pushvalue(L, lua_upvalueindex(1));
   lua_setmetatable(L, -2);
 
+  // Add the Window object to the weak table of windows by id
+  lua_pushvalue(L, lua_upvalueindex(2));
+  Uint32 window_id = SDL_GetWindowID(win->win);
+  lua_pushnumber(L, (lua_Number)window_id);
+  lua_pushvalue(L, -3);
+  lua_rawset(L, -3);
+  lua_pop(L, 1);
+
   return 1;
 }
 
@@ -119,6 +129,19 @@ int luaopen_lege_window(lua_State *L) {
     lua_pushcfunction(L, l_window_tostring);
     lua_setfield(L, 1, "__tostring");
   }
-  lua_pushcclosure(L, l_window, 1);
+
+  // We need weak table metatables
+  ll_require_weak(L);
+  lua_settop(L, 1);
+
+  // Create the weak table of windows, used for directing SDL events to the
+  // correct handlers, among other things
+  if (luaL_newmetatable(L, WINDOWS_TBL_NAME)) {
+    // Set this table as weak 'v'
+    lua_getfield(L, LUA_REGISTRYINDEX, WEAK_MT_V);
+    lua_setmetatable(L, 2);
+  }
+
+  lua_pushcclosure(L, l_window, 2);
   return 1;
 }
