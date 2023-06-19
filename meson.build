@@ -1,3 +1,5 @@
+module_srcs = []
+
 # Lua modules:
 # These are byte-compiled and embedded in liblege, then preloaded by the library
 luajit = find_program('luajit')
@@ -13,7 +15,9 @@ luac = generator(luajit,
   output: 'lmod_@BASENAME@.h',
 )
 
-module_srcs = [] # No Lua modules yet
+module_srcs += luac.process(
+  'c_libs.lua',
+  )
 
 # C modules:
 module_srcs += files(
