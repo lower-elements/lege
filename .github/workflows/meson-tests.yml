@@ -1,0 +1,24 @@
+name: Run Meson Tests
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-meson-tests:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Dependencies
+        run: sudo apt-get -yyq install luajit libluajit-5.1-dev libsdl2-dev
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v1
+
+      - name: Run Meson Tests
+        uses: BSFishy/meson-build@v1.0.3
+        with:
+          action: test
