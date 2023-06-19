@@ -3,7 +3,7 @@
 #include <string.h>
 
 // Include Lua module bytecode
-// Nothing here yet
+#include <lmod_c_libs.h>
 
 struct lmod {
   const char *name;
@@ -14,7 +14,7 @@ struct lmod {
 #define lmod(name)                                                             \
   { "lege." #name, luaJIT_BC_##name, luaJIT_BC_##name##_SIZE }
 
-static const struct lmod LUA_MODS[] = {{NULL, NULL, 0}};
+static const struct lmod LUA_MODS[] = {lmod(c_libs), {NULL, NULL, 0}};
 
 static int load_lmod(lua_State *L) {
   // Upvalue 1 is a pointer to the module info
