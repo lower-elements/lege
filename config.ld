@@ -20,3 +20,6 @@ new_type("meta", "Meta Methods", false, "param")
 custom_see_handler('^sdl:([%w_]*)$', function(sdl_symbol)
   return sdl_symbol, "https://wiki.libsdl.org/SDL2/" .. sdl_symbol
 end)
+custom_see_handler('^luajit:([%w_]*)$', function(page)
+  return page, "https://luajit.org/" .. page .. ".html"
+end)
