@@ -3,6 +3,9 @@
 
 #include "preloads.h"
 
+// Comes from lmod_preloads.c
+void lege_preload_lmods(lua_State *L);
+
 static const luaL_Reg BUILTIN_PRELOADS[] = {
     {.name = "lege.enum", .func = luaopen_lege_enum},
     {.name = "lege.event", .func = luaopen_lege_event},
@@ -35,6 +38,9 @@ void lege_preload_builtins(lua_State *L) {
   // Get the package.preload table
   lua_getglobal(L, "package");
   lua_getfield(L, -1, "preload");
+  // Register Lua modules
+  lege_preload_lmods(L);
+  // Register C modules
   for (const luaL_Reg *preload = BUILTIN_PRELOADS; preload->name; ++preload) {
     // Push the key for the assignment
     lua_pushstring(L, preload->name);

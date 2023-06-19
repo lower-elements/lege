@@ -1,3 +1,5 @@
+subdir('modules')
+
 cfg = configuration_data()
 
 version = meson.project_version().split('.')
@@ -18,17 +20,9 @@ lege_deps = [
 lege_srcs = [
   cfg_h,
   'engine.c',
-  'modules/enum.c',
-  'modules/event.c',
-  'modules/log.c',
-  'modules/lutf8lib.c',
-  'modules/readonly.c',
-  'modules/strict.c',
-  'modules/struct.c',
-  'modules/weak.c',
-  'modules/window.c',
+  'lmod_preloads.c',
   'preloads.c',
-  ]
+  ] + module_srcs
 lege_priv_incdir = include_directories('include')
 lege_pub_incdir = include_directories('.')
 
