@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>LEGE Documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>LEGE</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/enums.lua.html">enums.lua</a></li>
+  <li><strong>events.lua</strong></li>
+  <li><a href="../examples/hello_world.c.html">hello_world.c</a></li>
+  <li><a href="../examples/logging.lua.html">logging.lua</a></li>
+  <li><a href="../examples/preload.c.html">preload.c</a></li>
+  <li><a href="../examples/readonly_tables..lua.html">readonly_tables..lua</a></li>
+  <li><a href="../examples/strict_structs.lua.html">strict_structs.lua</a></li>
+  <li><a href="../examples/using_strict.lua.html">using_strict.lua</a></li>
+  <li><a href="../examples/weak_tables.lua.html">weak_tables.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/lege.c_libs.html">lege.c_libs</a></li>
+  <li><a href="../modules/lege.enum.html">lege.enum</a></li>
+  <li><a href="../modules/lege.event.html">lege.event</a></li>
+  <li><a href="../modules/lege.log.html">lege.log</a></li>
+  <li><a href="../modules/lege.readonly.html">lege.readonly</a></li>
+  <li><a href="../modules/lege.strict.html">lege.strict</a></li>
+  <li><a href="../modules/lege.struct.html">lege.struct</a></li>
+  <li><a href="../modules/lege.weak.html">lege.weak</a></li>
+  <li><a href="../modules/lege.window.html">lege.window</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/README.md.html">README</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>events.lua</h2>
+<pre>
+<span class="comment">--- Demonstrates the <a href="../modules/lege.event.html#">lege.event</a> module's Event type.
+</span><span class="comment">-- Events allow you to define actions to be performed when an event is triggered.
+</span>
+<span class="keyword">local</span> event = <span class="global">require</span> <span class="string">"lege.event"</span>
+
+<span class="comment">-- Create a new event handler object
+</span><span class="keyword">local</span> h = event.<span class="function-name">Event</span>()
+<span class="global">print</span>(h) <span class="comment">--&gt; EventHandler: 0xdeadbeaf
+</span>
+<span class="comment">-- Attach a handler
+</span><span class="comment">-- The index of the newly added handler is stored in <code>x</code>
+</span><span class="keyword">local</span> x = h:<span class="function-name">push</span>(<span class="keyword">function</span>(...)
+    <span class="global">print</span>(<span class="string">"Event was triggered with the following arguments:"</span>)
+    <span class="global">print</span>(...)
+<span class="keyword">end</span>)
+<span class="global">assert</span>(x == <span class="number">1</span>, <span class="string">"Indices are assigned from 1"</span>)
+
+<span class="comment">-- Multiple handlers can be pushed
+</span><span class="comment">-- the <code>push</code> method is also aliased as the <code>__call</code> metamethod, so you can use this syntax:
+</span><span class="keyword">local</span> y = <span class="function-name">h</span>(<span class="keyword">function</span>() <span class="global">print</span>(<span class="string">"Another handler"</span>) <span class="keyword">end</span>)
+<span class="global">assert</span>(y == <span class="number">2</span>, <span class="string">"Indices are consecutive"</span>)
+
+<span class="comment">-- Handlers can be removed at any position, much like <a href="https://www.lua.org/manual/5.1/manual.html#pdf-table.remove">table.remove</a>
+</span><span class="global">assert</span>(#h == <span class="number">2</span>, <span class="string">"Two handlers were added"</span>)
+<span class="keyword">local</span> f = h:<span class="function-name">pop</span>(y)
+<span class="global">assert</span>(<span class="global">type</span>(f) == <span class="string">"function"</span>, <span class="string">"`pop` returns popped handler"</span>)
+<span class="global">assert</span>(#h == <span class="number">1</span>, <span class="string">"Handler was removed"</span>)
+
+<span class="global">assert</span>(<span class="global">select</span>(<span class="string">"#"</span>, h:<span class="function-name">pop</span>(<span class="number">10</span>)) == <span class="number">0</span>, <span class="string">"Trying to pop an index that doesn't exist returns no values"</span>)
+
+<span class="comment">-- Use the <code>trigger</code> method to trigger all handlers
+</span><span class="comment">-- All arguments to trigger are forwarded to each handler in order, except the event handler itself
+</span>h:<span class="function-name">trigger</span>(<span class="string">"a"</span>, <span class="string">"b"</span>)
+<span class="comment">--&gt; Event was triggered with the following arguments:
+</span><span class="comment">--&gt; a	b</span></pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-06-22 12:06:13 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

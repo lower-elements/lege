@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>LEGE Documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>LEGE</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Meta_Methods">Meta Methods</a></li>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/lege.c_libs.html">lege.c_libs</a></li>
+  <li><a href="../modules/lege.enum.html">lege.enum</a></li>
+  <li><strong>lege.event</strong></li>
+  <li><a href="../modules/lege.log.html">lege.log</a></li>
+  <li><a href="../modules/lege.readonly.html">lege.readonly</a></li>
+  <li><a href="../modules/lege.strict.html">lege.strict</a></li>
+  <li><a href="../modules/lege.struct.html">lege.struct</a></li>
+  <li><a href="../modules/lege.weak.html">lege.weak</a></li>
+  <li><a href="../modules/lege.window.html">lege.window</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/README.md.html">README</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/enums.lua.html">enums.lua</a></li>
+  <li><a href="../examples/events.lua.html">events.lua</a></li>
+  <li><a href="../examples/hello_world.c.html">hello_world.c</a></li>
+  <li><a href="../examples/logging.lua.html">logging.lua</a></li>
+  <li><a href="../examples/preload.c.html">preload.c</a></li>
+  <li><a href="../examples/readonly_tables..lua.html">readonly_tables..lua</a></li>
+  <li><a href="../examples/strict_structs.lua.html">strict_structs.lua</a></li>
+  <li><a href="../examples/using_strict.lua.html">using_strict.lua</a></li>
+  <li><a href="../examples/weak_tables.lua.html">weak_tables.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>lege.event</code></h1>
+<p>LEGE event handling.</p>
+<p> This module defines a generic mechanism for defining actions to be performed,
+ and triggering those actions, with the <a href="../modules/lege.event.html#Event">Event</a> type. It also defines
+ functions for managing the LEGE event loop. After initializing the
+ appropriate constructs, call <a href="../modules/lege.event.html#main_loop">main_loop</a> to start the engine and begin
+ processing events.</p>
+
+
+<h2><a href="#Meta_Methods">Meta Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Event.__tostring">Event.__tostring</a></td>
+	<td class="summary">Convert an <a href="../modules/lege.event.html#Event">Event</a> to a human-readable string.</td>
+	</tr>
+</table>
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#main_loop">main_loop ()</a></td>
+	<td class="summary">Start the engine's main loop, processing events and triggering event
+ handlers.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Event.push">Event.push (self, handler)</a></td>
+	<td class="summary">Attach a handler to an <a href="../modules/lege.event.html#Event">Event</a>.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Event.pop">Event.pop (self, index)</a></td>
+	<td class="summary">Pop a handler from the <a href="../modules/lege.event.html#Event">Event</a> at the given index.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Event.trigger">Event.trigger (self, ...)</a></td>
+	<td class="summary">Trigger an <a href="../modules/lege.event.html#Event">Event</a>, calling all attached handlers.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Event">Event ()</a></td>
+	<td class="summary">Create a new event.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Meta_Methods"></a>Meta Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Event.__tostring"></a>
+    <strong>Event.__tostring</strong>
+    </dt>
+    <dd>
+    Convert an <a href="../modules/lege.event.html#Event">Event</a> to a human-readable string.
+ Currently we merely output "Event" and its address.
+
+
+    <h3>param:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../modules/lege.event.html#Event">Event</a></span>
+         The Event to convert to a string
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "main_loop"></a>
+    <strong>main_loop ()</strong>
+    </dt>
+    <dd>
+    Start the engine's main loop, processing events and triggering event
+ handlers.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Event.push"></a>
+    <strong>Event.push (self, handler)</strong>
+    </dt>
+    <dd>
+    Attach a handler to an <a href="../modules/lege.event.html#Event">Event</a>.
+ This inserts the handler at the end of the event table, like <a href="https://www.lua.org/manual/5.1/manual.html#pdf-table.insert">table.insert</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../modules/lege.event.html#Event">Event</a></span>
+         The event handler to operate on
+        </li>
+        <li><span class="parameter">handler</span>
+         The handler to push
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        The index of the newly pushed handler, which can later be
+ passed to <a href="../modules/lege.event.html#Event.pop">Event.pop</a>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> h = <span class="function-name">Event</span>()
+<span class="keyword">local</span> index1 = h:<span class="function-name">push</span>(<span class="keyword">function</span>() <span class="global">print</span>(<span class="string">"Event triggered"</span>) <span class="keyword">end</span>)
+<span class="comment">-- Push is also aliased as the __call metamethod
+</span> <span class="keyword">local</span> index2 = <span class="function-name">h</span>(<span class="keyword">function</span>() <span class="global">print</span>(<span class="string">"Another handler"</span>) <span class="keyword">end</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Event.pop"></a>
+    <strong>Event.pop (self, index)</strong>
+    </dt>
+    <dd>
+    Pop a handler from the <a href="../modules/lege.event.html#Event">Event</a> at the given index.
+ All other handlers are shifted down to fill the gap, just like
+<a href="https://www.lua.org/manual/5.1/manual.html#pdf-table.remove">table.remove</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../modules/lege.event.html#Event">Event</a></span>
+         The event handler to operate on
+        </li>
+        <li><span class="parameter">index</span>
+            <span class="types"><span class="type">number</span></span>
+         The index of the handler to pop
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The popped handler object
+    </ol>
+     <h3>Or</h3>
+    <ol>
+
+        No values, if the index was out of range
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Event.trigger"></a>
+    <strong>Event.trigger (self, ...)</strong>
+    </dt>
+    <dd>
+    Trigger an <a href="../modules/lege.event.html#Event">Event</a>, calling all attached handlers.
+ Handlers are called in the order they're attached. All arguments passed to
+ this function after <code>self</code> will be forwarded to each handler.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../modules/lege.event.html#Event">Event</a></span>
+         The event handler to trigger
+        </li>
+        <li><span class="parameter">...</span>
+         Additional arguments to pass to handlers
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Event"></a>
+    <strong>Event ()</strong>
+    </dt>
+    <dd>
+    Create a new event.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An Event object
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> event = <span class="global">require</span> <span class="string">"lege.event"</span>
+
+<span class="comment">-- Create a new event handler object
+</span><span class="keyword">local</span> h = event.<span class="function-name">Event</span>()
+<span class="global">print</span>(h) <span class="comment">--&gt; EventHandler: 0xdeadbeaf
+</span>
+<span class="comment">-- Attach a handler
+</span><span class="comment">-- The index of the newly added handler is stored in <code>x</code>
+</span><span class="keyword">local</span> x = h:<span class="function-name">push</span>(<span class="keyword">function</span>(...)
+<span class="global">print</span>(<span class="string">"Event was triggered with the following arguments:"</span>)
+<span class="global">print</span>(...)
+<span class="keyword">end</span>)
+<span class="global">assert</span>(x == <span class="number">1</span>, <span class="string">"Indices are assigned from 1"</span>)
+
+<span class="comment">-- Multiple handlers can be pushed
+</span><span class="comment">-- the <a href="../modules/lege.event.html#Event.push">push</a> method is also aliased as the <code>__call</code> metamethod, so you can
+</span>use this syntax: <span class="keyword">local</span> y = <span class="function-name">h</span>(<span class="keyword">function</span>() <span class="global">print</span>(<span class="string">"Another handler"</span>) <span class="keyword">end</span>)
+<span class="global">assert</span>(y == <span class="number">2</span>, <span class="string">"Indices are consecutive"</span>)
+
+<span class="comment">-- Handlers can be removed at any position, much like <a href="https://www.lua.org/manual/5.1/manual.html#pdf-table.remove">table.remove</a>
+</span><span class="global">assert</span>(#h == <span class="number">2</span>, <span class="string">"Two handlers were added"</span>)
+<span class="keyword">local</span> f = h:<span class="function-name">pop</span>(y)
+<span class="global">assert</span>(<span class="global">type</span>(f) == <span class="string">"function"</span>, <span class="string">"`pop` returns popped handler"</span>)
+<span class="global">assert</span>(#h == <span class="number">1</span>, <span class="string">"Handler was removed"</span>)
+
+<span class="global">assert</span>(<span class="global">select</span>(<span class="string">"#"</span>, h:<span class="function-name">pop</span>(<span class="number">10</span>)) == <span class="number">0</span>, <span class="string">"Trying to pop an index that doesn't
+exist returns no values"</span>)
+
+<span class="comment">-- Use the <a href="../modules/lege.event.html#Event.trigger">trigger</a> method to trigger all handlers
+</span><span class="comment">-- All arguments to trigger are forwarded to each handler in order, except
+</span>the event handler itself h:<span class="function-name">trigger</span>(<span class="string">"a"</span>, <span class="string">"b"</span>)
+<span class="comment">--&gt; Event was triggered with the following arguments:
+</span><span class="comment">--&gt; a	b</span></pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2023-06-22 12:06:13 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
