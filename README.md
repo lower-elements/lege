@@ -13,7 +13,7 @@ be:
 
 1. [Easy to use](#easy-to-use)
 2. [Cross platform](#cross-platform)
-3. [Powerful and extensable](#powerful-and-extensable)
+3. [Powerful and extensible](#powerful-and-extensable)
 4. [Blazing fast!](#blazing-fast)
 
 [fs]: <https://en.wikipedia.org/wiki/Free_software>
@@ -51,7 +51,7 @@ installer on Windows, .app / .dmg on macOS, Flatpak / Snap / Deb / whatever pack
 [openal]: <https://openal.org>
 [openal-soft]: <https://openal-soft.org>
 
-## Powerful and Extensable
+## Powerful and Extensible
 
 LEGE is designed to be highly extensible, offering the flexibility to use existing Lua or C modules, as well as
 third-party providers for additional engine functionalities like map loading, networking, game chat, and updates. You
