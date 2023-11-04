@@ -11,14 +11,16 @@ static int l_every_frame(lua_State *L) {
   lua_settop(L, 1);
   lua_getfield(L, LUA_REGISTRYINDEX, TASK_EVERY_FRAME_KEY);
   lua_insert(L, 1); // 1 = table, 2 = function
-  (void)luaL_ref(L, 1);
+  lua_Integer num_tasks = (lua_Integer)lua_objlen(L, 1);
+  lua_rawseti(L, 1, num_tasks + 1);
   return 0;
 }
 
 void ll_task_run_frame(lua_State *L) {
   ll_task_get_every_frame_table(L);
-  lua_pushnil(L);
-  while (lua_next(L, -2)) {
+  lua_Integer num_tasks = (lua_Integer)lua_objlen(L, -1);
+  for (lua_Integer i = 1; i <= num_tasks; ++i) {
+    lua_rawgeti(L, -1, i);
     lua_call(L, 0, 0);
   }
   lua_pop(L, 1);
@@ -33,6 +35,10 @@ void ll_require_task(lua_State *L) {
   // This is not a metatable but this function conveniently never recreates the
   // table
   (void)luaL_newmetatable(L, TASK_EVERY_FRAME_KEY);
+  // We start with 0 tasks
+  lua_pushliteral(L, "n");
+  lua_pushnumber(L, 0);
+  lua_rawset(L, -3);
 }
 
 int luaopen_lege_task(lua_State *L) {
