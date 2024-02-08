@@ -1,6 +1,4 @@
-#include <lauxlib.h>
-#include <lua.h>
-#include <stdbool.h>
+#include <lua.hpp>
 
 /**
  * Allows the creation of readonly tables.
@@ -39,7 +37,6 @@ static int l_err_readonly(lua_State *L) {
  * passed table
  */
 static int l_readonly(lua_State *L) {
-  (void)L;
   luaL_checktype(L, 1, LUA_TTABLE);
   // Create the proxy table
   lua_newtable(L);
@@ -58,7 +55,7 @@ static int l_readonly(lua_State *L) {
   return 1;
 }
 
-int luaopen_lege_readonly(lua_State *L) {
+extern "C" int luaopen_lege_readonly(lua_State *L) {
   lua_pushcfunction(L, l_readonly);
   return 1;
 }

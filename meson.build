@@ -24,7 +24,7 @@ module_srcs += files(
   'enum.c',
   'log.cpp',
   'lutf8lib.c',
-  'readonly.c',
+  'readonly.cpp',
   'strict.c',
   'struct.c',
   'task.c',
