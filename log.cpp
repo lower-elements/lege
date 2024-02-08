@@ -1,6 +1,5 @@
 #include <SDL_log.h>
-#include <lauxlib.h>
-#include <lua.h>
+#include <lua.hpp>
 
 #include "preloads.h"
 #include "util.h"
@@ -32,7 +31,7 @@
  */
 
 static const char *const LOG_PRIORITIES[SDL_NUM_LOG_PRIORITIES] = {
-    "verbose", "debug", "info", "warn", "error", "critical", NULL};
+    "verbose", "debug", "info", "warn", "error", "critical", nullptr};
 
 /**
  * Get the lowest log priority at which log messages are output.
@@ -57,8 +56,9 @@ static int log_get_priority(lua_State *L) {
  * @see sdl:SDL_LogSetPriority
  */
 static int log_set_priority(lua_State *L) {
-  SDL_LogPriority pri =
-      luaL_checkoption(L, 1, NULL, LOG_PRIORITIES) + SDL_LOG_PRIORITY_VERBOSE;
+  auto pri = static_cast<SDL_LogPriority>(
+      luaL_checkoption(L, 1, nullptr, LOG_PRIORITIES) +
+      SDL_LOG_PRIORITY_VERBOSE);
   SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, pri);
   return 0;
 }
@@ -72,8 +72,9 @@ static int log_set_priority(lua_State *L) {
  * @see sdl:SDL_LogMessage
  */
 static int log_message(lua_State *L) {
-  SDL_LogPriority pri =
-      luaL_checkoption(L, 1, NULL, LOG_PRIORITIES) + SDL_LOG_PRIORITY_VERBOSE;
+  auto pri = static_cast<SDL_LogPriority>(
+      luaL_checkoption(L, 1, nullptr, LOG_PRIORITIES) +
+      SDL_LOG_PRIORITY_VERBOSE);
   const char *str = luaL_checkstring(L, 2);
   SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, pri, "%s", str);
   return 0;
@@ -152,19 +153,19 @@ static int log_critical(lua_State *L) {
 }
 
 static const luaL_Reg LOG_FUNCS[] = {
-    {.name = "get_priority", .func = log_get_priority},
-    {.name = "set_priority", .func = log_set_priority},
-    {.name = "message", .func = log_message},
-    {.name = "verbose", .func = log_verbose},
-    {.name = "debug", .func = log_debug},
-    {.name = "info", .func = log_info},
-    {.name = "warn", .func = log_warn},
-    {.name = "error", .func = log_error},
-    {.name = "critical", .func = log_critical},
-    {NULL, NULL},
+    {"get_priority", log_get_priority},
+    {"set_priority", log_set_priority},
+    {"message", log_message},
+    {"verbose", log_verbose},
+    {"debug", log_debug},
+    {"info", log_info},
+    {"warn", log_warn},
+    {"error", log_error},
+    {"critical", log_critical},
+    {nullptr, nullptr},
 };
 
-int luaopen_lege_log(lua_State *L) {
+extern "C" int luaopen_lege_log(lua_State *L) {
   luaL_newlib(L, LOG_FUNCS);
   return 1;
 }
