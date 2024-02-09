@@ -1,5 +1,4 @@
-#include <lauxlib.h>
-#include <lua.h>
+#include <lua.hpp>
 #include <stddef.h>
 
 #include "modules/weak.h"
@@ -99,7 +98,7 @@ void ll_require_weak(lua_State *L) {
   make_mt(v);
 }
 
-int luaopen_lege_weak(lua_State *L) {
+extern "C" int luaopen_lege_weak(lua_State *L) {
   ll_require_weak(L);
   lua_pushcfunction(L, l_weak);
   return 1;
