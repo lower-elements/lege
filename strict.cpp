@@ -1,8 +1,6 @@
-#include <lauxlib.h>
-#include <lua.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
+#include <lua.hpp>
 
 #include "preloads.h"
 
@@ -48,7 +46,7 @@ static int l_newindex(lua_State *L) {
     // Check where this global was set
     // Globals set from a main chunk or from C are exempt
     const char *w = what(L);
-    if ((strcmp(w, "main") != 0) && (strcmp(w, "C") != 0)) {
+    if ((std::strcmp(w, "main") != 0) && (std::strcmp(w, "C") != 0)) {
       lua_pushliteral(L, "assign to undeclared variable '");
       lua_pushvalue(L, 2);
       lua_pushliteral(L, "'");
@@ -77,7 +75,7 @@ static int l_index(lua_State *L) {
   if (lua_isnoneornil(L, -1)) {
     // Check this wasn't accessed from C code
     const char *w = what(L);
-    if (strcmp(w, "C") != 0) {
+    if (std::strcmp(w, "C") != 0) {
       // Called from Lua code, illeagal access to undefined global variable
       lua_pushliteral(L, "variable '");
       lua_pushvalue(L, 2);
@@ -92,7 +90,7 @@ static int l_index(lua_State *L) {
   return 1;
 }
 
-int luaopen_lege_strict(lua_State *L) {
+extern "C" int luaopen_lege_strict(lua_State *L) {
   // Get or create metatable for _G
   lua_pushvalue(L, LUA_GLOBALSINDEX);
   if (!lua_getmetatable(L, -1)) {

@@ -25,7 +25,7 @@ module_srcs += files(
   'log.cpp',
   'lutf8lib.c',
   'readonly.cpp',
-  'strict.c',
+  'strict.cpp',
   'struct.c',
   'task.c',
   'weak.c',
