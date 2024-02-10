@@ -1,7 +1,7 @@
 #include <lua.hpp>
 #include <stddef.h>
 
-#include "modules/weak.h"
+#include "modules/weak.hpp"
 
 /**
  * Create tables with weak references to their keys and / or values.
