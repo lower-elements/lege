@@ -2,7 +2,7 @@
 #include <cstring>
 #include <lua.hpp>
 
-#include "preloads.h"
+#include "preloads.hpp"
 
 /**
  * checks uses of undeclared global variables.

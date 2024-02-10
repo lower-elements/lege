@@ -1,7 +1,7 @@
 #include <SDL_log.h>
 #include <lua.hpp>
 
-#include "preloads.h"
+#include "preloads.hpp"
 #include "util.h"
 
 /**

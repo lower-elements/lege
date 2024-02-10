@@ -1,9 +1,9 @@
 #include <lua.hpp>
 
-#include "modules/task.h"
-#include "preloads.h"
+#include "modules/task.hpp"
+#include "preloads.hpp"
 
-extern "C" const char TASK_EVERY_FRAME_KEY[] = "lege.task.every_frame";
+const char TASK_EVERY_FRAME_KEY[] = "lege.task.every_frame";
 
 static int l_every_frame(lua_State *L) {
   luaL_checktype(L, 1, LUA_TFUNCTION);
@@ -15,7 +15,7 @@ static int l_every_frame(lua_State *L) {
   return 0;
 }
 
-extern "C" void ll_task_run_frame(lua_State *L) {
+void ll_task_run_frame(lua_State *L) {
   ll_task_get_every_frame_table(L);
   auto num_tasks = static_cast<lua_Integer>(lua_objlen(L, -1));
   for (lua_Integer i = 1; i <= num_tasks; ++i) {
@@ -28,7 +28,7 @@ extern "C" void ll_task_run_frame(lua_State *L) {
 static const luaL_Reg TASK_FUNCS[] = {{"every_frame", l_every_frame},
                                       {nullptr, nullptr}};
 
-extern "C" void ll_require_task(lua_State *L) {
+void ll_require_task(lua_State *L) {
   // Create the table that stores tasks to be run every frame
   // This is not a metatable but this function conveniently never recreates the
   // table
@@ -39,7 +39,7 @@ extern "C" void ll_require_task(lua_State *L) {
   lua_rawset(L, -3);
 }
 
-extern "C" int luaopen_lege_task(lua_State *L) {
+int luaopen_lege_task(lua_State *L) {
   ll_require_task(L);
   // Create and return the library table of functions
   luaL_newlib(L, TASK_FUNCS);
