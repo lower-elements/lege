@@ -1,5 +1,4 @@
-#include <lauxlib.h>
-#include <lua.h>
+#include <lua.hpp>
 
 /**
  * Allows the creation of strict structs.
@@ -112,7 +111,6 @@ static int l_struct_new(lua_State *L) {
   while (lua_next(L, 2) != 0) {
     lua_pushvalue(L, 3); // Push another copy of key
     lua_rawget(L, 1);    // Check if the passed table has the key
-                         // puts(luaL_typename(L, 5);
     if (lua_isnil(L, 5)) {
       lua_pushvalue(L, 3); // key
       lua_pushvalue(L, 4); // fields[key]
@@ -172,7 +170,7 @@ static int l_struct(lua_State *L) {
   return 1;
 }
 
-int luaopen_lege_struct(lua_State *L) {
+extern "C" int luaopen_lege_struct(lua_State *L) {
   lua_pushcfunction(L, l_struct);
   return 1;
 }

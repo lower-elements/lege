@@ -26,7 +26,7 @@ module_srcs += files(
   'lutf8lib.c',
   'readonly.cpp',
   'strict.cpp',
-  'struct.c',
+  'struct.cpp',
   'task.cpp',
   'weak.cpp',
   )
