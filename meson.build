@@ -21,7 +21,7 @@ module_srcs += luac.process(
 
 # C modules:
 module_srcs += files(
-  'enum.c',
+  'enum.cpp',
   'log.cpp',
   'lutf8lib.c',
   'readonly.cpp',

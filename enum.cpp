@@ -1,6 +1,5 @@
 #include <SDL_assert.h>
-#include <lauxlib.h>
-#include <lua.h>
+#include <lua.hpp>
 
 /**
  * Allows the creation of enumerations.
@@ -79,7 +78,7 @@ static int l_enum_newindex(lua_State *L) {
  * @treturn string A formatted string "enum &lt;name&gt;: &lt;address&gt;"
  */
 static int l_enum_tostring(lua_State *L) {
-  const char *ptr = lua_topointer(L, 1);
+  const void *ptr = lua_topointer(L, 1);
   lua_pushvalue(L, lua_upvalueindex(1));
   const char *tname = lua_tostring(L, -1);
   lua_pushfstring(L, "enum %s: %p", tname, ptr);
@@ -188,7 +187,7 @@ static int l_enum(lua_State *L) {
   return 1;
 }
 
-int luaopen_lege_enum(lua_State *L) {
+extern "C" int luaopen_lege_enum(lua_State *L) {
   lua_pushcfunction(L, l_enum);
   return 1;
 }
