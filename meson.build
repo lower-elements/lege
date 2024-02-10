@@ -27,6 +27,6 @@ module_srcs += files(
   'readonly.cpp',
   'strict.cpp',
   'struct.c',
-  'task.c',
+  'task.cpp',
   'weak.cpp',
   )
