@@ -19,6 +19,8 @@ private:
   std::string m_msg;
 };
 
+int on_error(lua_State *L);
+
 } // namespace lege::lua
 
 #endif

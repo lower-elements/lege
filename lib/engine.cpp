@@ -41,6 +41,7 @@ EngineImpl::EngineImpl()
   if (!L) {
     throw std::runtime_error("Could not initialize Lua state");
   }
+  lua_atpanic(L, lua::on_error);
   luaL_openlibs(L);
   if (SDL_InitSubSystem(m_sdl_subsystems) < 0) {
     throw std::runtime_error(
