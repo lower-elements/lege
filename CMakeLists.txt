@@ -75,5 +75,6 @@ if (LuaJIT_FOUND)
     target_link_libraries(liblua-shared INTERFACE ${LUA_LIBRARY})
 endif()
 
-# Build liblege
+# Build liblege and the lege command line utility
 add_subdirectory(lib)
+add_subdirectory(cli)

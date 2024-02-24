@@ -1,11 +1,16 @@
+#include <cstdlib>
+
 #include <SDL.h>
 
+#include "engine.hpp"
 #include "lege.hpp"
 
 namespace lege {
 
-Engine::Engine() { SDL_Init(SDL_INIT_VIDEO); }
+Engine::Engine() : m_impl(new EngineImpl()) {}
 
-Engine::~Engine() { SDL_Quit(); }
+Engine::~Engine() { delete m_impl; }
+
+int Engine::run() { return EXIT_SUCCESS; }
 
 } // namespace lege

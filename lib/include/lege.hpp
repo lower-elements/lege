@@ -5,10 +5,17 @@
 
 namespace lege {
 
+class EngineImpl;
+
 class LEGE_EXPORT Engine final {
 public:
   Engine();
   ~Engine();
+
+  int run();
+
+private:
+  EngineImpl *m_impl;
 };
 
 } // namespace lege
