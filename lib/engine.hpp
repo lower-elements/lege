@@ -11,6 +11,7 @@ public:
   void load(const char *buf, std::size_t size, const char *mode,
             const char *name);
 
+  void setup();
   bool runOnce();
 
 private:

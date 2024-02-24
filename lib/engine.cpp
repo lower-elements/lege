@@ -19,9 +19,12 @@ void Engine::load(const char *buf, std::size_t size, const char *mode,
   m_impl->load(buf, size, mode, name);
 }
 
+void Engine::setup() { m_impl->setup(); }
+
 bool Engine::runOnce() { return m_impl->runOnce(); }
 
 void Engine::run() {
+  m_impl->setup();
   while (m_impl->runOnce()) {
   }
 }
@@ -72,6 +75,15 @@ void EngineImpl::load(const char *buf, std::size_t size, const char *mode,
   // Pop package.preload / the registry
   lua_pop(L, 1);
 }
+
+void EngineImpl::setup() {
+  lua_getfield(L, LUA_REGISTRYINDEX, "main");
+  if (lua_type(L, -1) != LUA_TFUNCTION) {
+    throw std::runtime_error("Main chunk not loaded");
+  }
+  lua_call(L, 0, 0);
+}
+
 bool EngineImpl::runOnce() { return false; }
 
 } // namespace lege
