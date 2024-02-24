@@ -11,7 +11,7 @@ generate_export_header(lege
     DEFINE_NO_DEPRECATED
     )
 
-target_link_libraries(lege PRIVATE fmt glm::glm OpenAL::OpenAL SDL2 SDL2::SDL2)
+target_link_libraries(lege PRIVATE fmt glm::glm liblua-shared OpenAL::OpenAL SDL2 SDL2::SDL2)
 
 install(TARGETS lege DESTINATION ${LIBRARY_INSTALL_DIR})
 install(FILES

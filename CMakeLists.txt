@@ -11,6 +11,7 @@ project(LEGE
 # Global project options
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # Warnings
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
@@ -40,6 +41,12 @@ FetchContent_Declare(
   FIND_PACKAGE_ARGS NAMES glm
 )
 
+FetchContent_Declare(
+    LuaJIT
+    GIT_REPOSITORY https://github.com/9chu/LuaJIT-cmake
+    FIND_PACKAGE_ARGS
+)
+
 set(ALSOFT_UTILS OFF CACHE INTERNAL "ALSOFT_UTILS")
 set(ALSOFT_NO_CONFIG_UTIL ON CACHE INTERNAL "ALSOFT_NO_CONFIG_UTIL")
 set(ALSOFT_EXAMPLES OFF CACHE INTERNAL "ALSOFT_EXAMPLES")
@@ -61,7 +68,12 @@ FetchContent_Declare(
   FIND_PACKAGE_ARGS NAMES SDL2 COMPONENTS SDL2main
 )
 
-FetchContent_MakeAvailable(fmt glm OpenAL SDL2)
+FetchContent_MakeAvailable(fmt glm LuaJIT OpenAL SDL2)
+if (LuaJIT_FOUND)
+    add_library(liblua-shared INTERFACE)
+    target_include_directories(liblua-shared INTERFACE ${LUA_INCLUDE_DIR})
+    target_link_libraries(liblua-shared INTERFACE ${LUA_LIBRARY})
+endif()
 
 # Build liblege
 add_subdirectory(lib)
