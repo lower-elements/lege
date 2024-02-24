@@ -12,6 +12,7 @@ public:
   Engine();
   ~Engine();
 
+  [[nodiscard]] bool runOnce();
   void run();
 
 private:

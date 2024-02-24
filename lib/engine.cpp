@@ -13,7 +13,12 @@ Engine::Engine() : m_impl(new EngineImpl) {}
 
 Engine::~Engine() { delete m_impl; }
 
-void Engine::run() { m_impl->run(); }
+bool Engine::runOnce() { return m_impl->runOnce(); }
+
+void Engine::run() {
+  while (m_impl->runOnce()) {
+  }
+}
 
 EngineImpl::EngineImpl()
     : L(luaL_newstate()), m_sdl_subsystems(SDL_INIT_VIDEO) {
@@ -31,6 +36,6 @@ EngineImpl::~EngineImpl() {
   SDL_QuitSubSystem(m_sdl_subsystems);
 }
 
-void EngineImpl::run() {}
+bool EngineImpl::runOnce() { return false; }
 
 } // namespace lege
