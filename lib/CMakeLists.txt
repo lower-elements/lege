@@ -1,6 +1,8 @@
 add_library(lege SHARED
     engine.cpp
     lua/error.cpp
+    lua/stack.cpp
+    lua/table_view.cpp
     )
 
 target_include_directories(lege PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

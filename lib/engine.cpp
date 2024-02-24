@@ -57,8 +57,8 @@ EngineImpl::~EngineImpl() {
 void EngineImpl::set(std::string_view option, std::string_view val) {
   // Get the options table
   luaL_newmetatable(L, "lege.options");
-  lua_pushlstring(L, option.data(), option.size());
-  lua_pushlstring(L, val.data(), val.size());
+  lua::push(L, option);
+  lua::push(L, val);
   lua_rawset(L, -3);
   lua_pop(L, 1);
 }

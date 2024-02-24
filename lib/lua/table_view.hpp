@@ -7,7 +7,7 @@
 
 #include <lua.hpp>
 
-#include "lua/nil.hpp"
+#include "lua/stack.hpp"
 
 namespace lege::lua {
 
@@ -35,65 +35,16 @@ private:
       : L(state), m_index(index), key(k) {}
 
 public:
-  void pushKey() = delete;
   void get() {
     int index = m_index >= 0 ? index : lua_gettop(L) + index;
-    pushKey();
+    push(key);
     lua_gettable(L, index);
   }
 
-  TableValProxy<K> &set(Nil) {
-    int index = m_index > 0 ? index : lua_gettop(L) + index;
-    pushKey();
-    lua_pushnil(L);
-    lua_settable(L, index);
-    return *this;
-  }
-
-  TableValProxy<K> &set(lua_Number val) {
-    int index = m_index > 0 ? index : lua_gettop(L) + index;
-    pushKey();
-    lua_pushnumber(L, val);
-    lua_settable(L, index);
-    return *this;
-  }
-
-  TableValProxy<K> &set(bool val) {
-    int index = m_index > 0 ? index : lua_gettop(L) + index;
-    pushKey();
-    lua_pushboolean(L, val);
-    lua_settable(L, index);
-    return *this;
-  }
-
-  TableValProxy<K> &set(std::string_view val) {
-    int index = m_index > 0 ? index : lua_gettop(L) + index;
-    pushKey();
-    lua_pushlstring(L, val.data(), val.size());
-    lua_settable(L, index);
-    return *this;
-  }
-
-  TableValProxy<K> &set(const char *val) {
-    int index = m_index > 0 ? index : lua_gettop(L) + index;
-    pushKey();
-    lua_pushstring(L, val);
-    lua_settable(L, index);
-    return *this;
-  }
-
-  TableValProxy<K> &set(void *val) {
-    int index = m_index > 0 ? index : lua_gettop(L) + index;
-    pushKey();
-    lua_pushlightuserdata(L, val);
-    lua_settable(L, index);
-    return *this;
-  }
-
-  TableValProxy<K> &set(int val_index) {
-    int index = m_index > 0 ? index : lua_gettop(L) + index;
-    pushKey();
-    lua_pushvalue(L, val_index);
+  template <class V> TableValProxy<K> &set(V val) {
+    int index = absindex(L, m_index);
+    push(key);
+    push(val);
     lua_settable(L, index);
     return *this;
   }
@@ -107,108 +58,21 @@ public:
     return static_cast<bool>(res);
   }
 
-  operator lua_Number() {
+  template <class V> operator V() {
     get();
-    auto val = lua_tonumber(L, -1);
+    V val;
+    ::lege::lua::get(L, val);
     lua_pop(L, 1);
     return val;
   }
 
-  operator bool() {
-    get();
-    int val = lua_toboolean(L, -1);
-    lua_pop(L, 1);
-    return static_cast<bool>(val);
-  }
-
-  operator std::string() {
-    get();
-    std::size_t len;
-    const char *val = lua_tolstring(L, -1, &len);
-    std::string str(val, len);
-    lua_pop(L, 1);
-    return str;
-  }
-
-  operator lua_CFunction() {
-    get();
-    auto val = lua_tocfunction(L, -1);
-    lua_pop(L, 1);
-    return val;
-  }
-
-  operator void *() {
-    get();
-    auto val = lua_touserdata(L, -1);
-    lua_pop(L, 1);
-    return val;
-  }
-
-  operator lua_Integer() {
-    get();
-    auto val = lua_tointeger(L, -1);
-    lua_pop(L, 1);
-    return val;
-  }
-
-  operator std::optional<lua_Number>() {
+  template <class V> operator std::optional<V>() {
     get();
     if (lua_isnil(L, -1)) {
       return {};
     }
-    auto val = lua_tonumber(L, -1);
-    lua_pop(L, 1);
-    return val;
-  }
-
-  operator std::optional<bool>() {
-    get();
-    if (lua_isnil(L, -1)) {
-      return {};
-    }
-    int val = lua_toboolean(L, -1);
-    lua_pop(L, 1);
-    return static_cast<bool>(val);
-  }
-
-  operator std::optional<std::string>() {
-    get();
-    if (lua_isnil(L, -1)) {
-      return {};
-    }
-    std::size_t len;
-    const char *val = lua_tolstring(L, -1, &len);
-    std::string str(val, len);
-    lua_pop(L, 1);
-    return str;
-  }
-
-  operator std::optional<lua_CFunction>() {
-    get();
-    if (lua_isnil(L, -1)) {
-      return {};
-    }
-    auto val = lua_tocfunction(L, -1);
-    lua_pop(L, 1);
-    return val;
-  }
-
-  operator std::optional<void *>() {
-    get();
-    if (lua_isnil(L, -1)) {
-      return {};
-    }
-    auto val = lua_touserdata(L, -1);
-    lua_pop(L, 1);
-    return val;
-  }
-
-  operator std::optional<lua_Integer>() {
-    get();
-    if (lua_isnil(L, -1)) {
-      return {};
-    }
-    auto val = lua_tointeger(L, -1);
+    V val;
+    ::lege::lua::get(L, val);
     lua_pop(L, 1);
     return val;
   }
