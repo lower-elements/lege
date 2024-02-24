@@ -7,6 +7,9 @@
 
 #include "engine.hpp"
 #include "lege.hpp"
+#include "lua/helpers.hpp"
+
+namespace lua = lege::lua;
 
 namespace lege {
 
@@ -75,11 +78,7 @@ void EngineImpl::load(const char *buf, std::size_t size, const char *mode,
   // Load the buffer as a chunk
   int res = luaL_loadbufferx(L, buf, size, name, mode);
   if (res != LUA_OK) {
-    std::size_t errlen;
-    const char *errmsg = lua_tolstring(L, -1, &errlen);
-    throw std::runtime_error(fmt::format("Could not load \"{}\" chunk: {}",
-                                         name,
-                                         std::string_view(errmsg, errlen)));
+    throw lua::Error(L, "Could not load chunk");
   }
   // package.preload[name] = chunk
   // or registry.main = chunk if this is the main chunk

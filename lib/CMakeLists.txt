@@ -1,4 +1,7 @@
-add_library(lege SHARED engine.cpp)
+add_library(lege SHARED
+    engine.cpp
+    lua/error.cpp
+    )
 
 target_include_directories(lege PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(lege PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR})
