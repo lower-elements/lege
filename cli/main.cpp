@@ -1,6 +1,9 @@
+#include <cstdlib>
+
 #include <lege.hpp>
 
 int main() {
   lege::Engine engine;
-  return engine.run();
+  engine.run();
+  return EXIT_SUCCESS;
 }

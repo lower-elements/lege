@@ -1,4 +1,3 @@
-#include <cstdlib>
 #include <exception>
 
 #include <SDL.h>
@@ -14,7 +13,7 @@ Engine::Engine() : m_impl(new EngineImpl) {}
 
 Engine::~Engine() { delete m_impl; }
 
-int Engine::run() { return m_impl->run(); }
+void Engine::run() { m_impl->run(); }
 
 EngineImpl::EngineImpl()
     : L(luaL_newstate()), m_sdl_subsystems(SDL_INIT_VIDEO) {
@@ -32,6 +31,6 @@ EngineImpl::~EngineImpl() {
   SDL_QuitSubSystem(m_sdl_subsystems);
 }
 
-int EngineImpl::run() { return EXIT_SUCCESS; }
+void EngineImpl::run() {}
 
 } // namespace lege

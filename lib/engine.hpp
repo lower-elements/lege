@@ -8,7 +8,7 @@ public:
   EngineImpl();
   ~EngineImpl();
 
-  int run();
+  void run();
 
 private:
   lua_State *L;

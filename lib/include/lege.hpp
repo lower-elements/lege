@@ -12,7 +12,7 @@ public:
   Engine();
   ~Engine();
 
-  int run();
+  void run();
 
 private:
   EngineImpl *m_impl;
