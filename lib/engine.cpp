@@ -14,6 +14,10 @@ Engine::Engine() : m_impl(new EngineImpl) {}
 
 Engine::~Engine() { delete m_impl; }
 
+void Engine::set(std::string_view option, std::string_view val) {
+  m_impl->set(option, val);
+}
+
 void Engine::load(const char *buf, std::size_t size, const char *mode,
                   const char *name) {
   m_impl->load(buf, size, mode, name);
@@ -44,6 +48,15 @@ EngineImpl::EngineImpl()
 EngineImpl::~EngineImpl() {
   lua_close(L);
   SDL_QuitSubSystem(m_sdl_subsystems);
+}
+
+void EngineImpl::set(std::string_view option, std::string_view val) {
+  // Get the options table
+  luaL_newmetatable(L, "lege.options");
+  lua_pushlstring(L, option.data(), option.size());
+  lua_pushlstring(L, val.data(), val.size());
+  lua_rawset(L, -3);
+  lua_pop(L, 1);
 }
 
 void EngineImpl::load(const char *buf, std::size_t size, const char *mode,

@@ -8,6 +8,8 @@ public:
   EngineImpl();
   ~EngineImpl();
 
+  void set(std::string_view option, std::string_view val);
+
   void load(const char *buf, std::size_t size, const char *mode,
             const char *name);
 
