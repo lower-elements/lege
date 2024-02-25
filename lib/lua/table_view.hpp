@@ -24,6 +24,8 @@ public:
     return TableValProxy(L, m_index, key);
   }
 
+  std::size_t size() { return lua_objlen(L, m_index); }
+
 private:
   lua_State *L;
   int m_index;
