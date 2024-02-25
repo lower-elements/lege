@@ -9,6 +9,7 @@
 #include "engine.hpp"
 #include "lege.hpp"
 #include "lua/helpers.hpp"
+#include "util.hpp"
 
 namespace lua = lege::lua;
 
@@ -48,6 +49,7 @@ void Engine::run() {
 
 EngineImpl::EngineImpl()
     : L(luaL_newstate()), m_sdl_subsystems(SDL_INIT_VIDEO) {
+  setSDLLogPriority();
   if (!L) {
     throw std::runtime_error("Could not initialize Lua state");
   }
