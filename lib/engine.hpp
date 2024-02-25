@@ -15,6 +15,8 @@ public:
   void loadFile(const char *filename, const char *mode = "t",
                 const char *name = "main");
 
+  void loadProject(const char *projectfile);
+
   void setup();
   bool runOnce();
 
