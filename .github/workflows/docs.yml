@@ -1,0 +1,35 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy-docs:
+    concurrency: ci-${{ github.ref }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Lua
+        uses: leafo/gh-actions-lua@v9
+        with:
+          luaVersion: "luajit-2.1.0-beta3"
+
+      - name: Setup Lua Rocks
+        uses: leafo/gh-actions-luarocks@v4
+
+      - name: Setup LDoc
+        run: luarocks install ldoc
+
+      - name: Build docs
+        run: ldoc .
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: docs
+          publish_dir: doc
+          force_orphan: true
