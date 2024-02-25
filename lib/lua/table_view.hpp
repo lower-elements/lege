@@ -41,11 +41,25 @@ public:
     lua_gettable(L, index);
   }
 
+  void get_raw() {
+    int index = m_index >= 0 ? index : lua_gettop(L) + index;
+    push(key);
+    lua_rawget(L, index);
+  }
+
   template <class V> TableValProxy<K> &set(V val) {
     int index = absindex(L, m_index);
     push(key);
     push(val);
     lua_settable(L, index);
+    return *this;
+  }
+
+  template <class V> TableValProxy<K> &set_raw(V val) {
+    int index = absindex(L, m_index);
+    push(key);
+    push(val);
+    lua_rawset(L, index);
     return *this;
   }
 
