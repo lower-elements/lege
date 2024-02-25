@@ -12,6 +12,8 @@ public:
 
   void load(const char *buf, std::size_t size, const char *mode,
             const char *name);
+  void loadFile(const char *filename, const char *mode = "t",
+                const char *name = "main");
 
   void setup();
   bool runOnce();

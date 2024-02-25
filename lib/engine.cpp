@@ -1,4 +1,5 @@
 #include <exception>
+#include <memory>
 #include <string_view>
 
 #include <SDL.h>
@@ -24,6 +25,11 @@ void Engine::set(std::string_view option, std::string_view val) {
 void Engine::load(const char *buf, std::size_t size, const char *mode,
                   const char *name) {
   m_impl->load(buf, size, mode, name);
+}
+
+void Engine::loadFile(const char *filename, const char *mode,
+                      const char *name) {
+  m_impl->loadFile(filename, mode, name);
 }
 
 void Engine::setup() { m_impl->setup(); }
@@ -61,6 +67,21 @@ void EngineImpl::set(std::string_view option, std::string_view val) {
   lua::push(L, val);
   lua_rawset(L, -3);
   lua_pop(L, 1);
+}
+
+void EngineImpl::loadFile(const char *filename, const char *mode,
+                          const char *name) {
+  // Todo: investigate using mmap() here
+  std::size_t sz;
+  auto contents = (char *)SDL_LoadFile(filename, &sz);
+  if (!contents) {
+    throw std::runtime_error(fmt::format("could not load chunk \"{}\": {}",
+                                         filename, SDL_GetError()));
+  }
+  // We do this instead of manual memory management to avoid leaking memory if
+  // load() throws an exception
+  std::unique_ptr<char[], void (*)(void *)> buf(contents, SDL_free);
+  load(buf.get(), sz, mode, name);
 }
 
 void EngineImpl::load(const char *buf, std::size_t size, const char *mode,
