@@ -1,9 +1,6 @@
 #include <SDL_log.h>
 #include <lua.hpp>
 
-#include "preloads.hpp"
-#include "util.h"
-
 /**
  * Logging facilities for LEGE programs. This module uses [SDL's logging
  * facilities][sdl-log] to write log messages to the appropriate place for each

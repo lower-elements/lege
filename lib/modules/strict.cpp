@@ -2,8 +2,6 @@
 #include <cstring>
 #include <lua.hpp>
 
-#include "preloads.hpp"
-
 /**
  * checks uses of undeclared global variables.
  * All global variables must be 'declared' through a regular assignment

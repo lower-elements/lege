@@ -1,6 +1,11 @@
 #ifndef LIBLEGE_ENGINE_HPP
 #define LIBLEGE_ENGINE_HPP
 
+#include <string_view>
+
+#include <SDL.h>
+#include <lua.hpp>
+
 namespace lege {
 
 class EngineImpl {
@@ -12,6 +17,7 @@ public:
 
   void load(const char *buf, std::size_t size, const char *mode,
             const char *name);
+  void load(lua_CFunction cfunc, std::string_view name);
   void loadFile(const char *filename, const char *mode = "t",
                 const char *name = "main");
 

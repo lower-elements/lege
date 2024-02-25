@@ -6,6 +6,7 @@
 #include <fmt/core.h>
 #include <lua.hpp>
 
+#include "builtins.hpp"
 #include "engine.hpp"
 #include "lege.hpp"
 #include "lua/helpers.hpp"
@@ -116,6 +117,17 @@ void EngineImpl::load(const char *buf, std::size_t size, const char *mode,
   lua_pop(L, 1);
 }
 
+void EngineImpl::load(lua_CFunction cfunc, std::string_view name) {
+  // Get the package.preload table
+  lua_getglobal(L, "package");
+  lua_getfield(L, -1, "preload");
+  lua_replace(L, -2); // Replace package with package.preload
+  lua::push(L, name);
+  lua::push(L, cfunc);
+  lua_rawset(L, -3);
+  lua_pop(L, 1);
+}
+
 void EngineImpl::loadProject(const char *projectfile) {
   // Use an isolated, temporary environment:
   lua_newtable(L);
@@ -195,6 +207,7 @@ void EngineImpl::loadProject(const char *projectfile) {
 }
 
 void EngineImpl::setup() {
+  lege::modules::register_builtins(*this);
   lua_getfield(L, LUA_REGISTRYINDEX, "main");
   if (lua_type(L, -1) != LUA_TFUNCTION) {
     throw std::runtime_error("Main chunk not loaded");

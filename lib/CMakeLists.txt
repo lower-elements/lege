@@ -1,8 +1,15 @@
 add_library(lege SHARED
+    builtins.cpp
     engine.cpp
     lua/error.cpp
     lua/stack.cpp
     lua/table_view.cpp
+    modules/enum.cpp
+    modules/log.cpp
+    modules/readonly.cpp
+    modules/strict.cpp
+    modules/struct.cpp
+    modules/weak.cpp
     util.cpp
     )
 
