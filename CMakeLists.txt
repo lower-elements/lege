@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.14)
 project(LEGE
     VERSION 0.1.0
     DESCRIPTION "The Lower Elements Game Engine"
-    LANGUAGES CXX
+    LANGUAGES C CXX
     )
 
 # User-writable options

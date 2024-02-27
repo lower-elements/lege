@@ -9,6 +9,7 @@ void register_builtins(EngineImpl &e) {
   e.load(luaopen_lege_strict, "lege.strict");
   e.load(luaopen_lege_struct, "lege.struct");
   e.load(luaopen_lege_weak, "lege.weak");
+  e.load(luaopen_utf8, "utf8");
 }
 
 } // namespace lege::modules

@@ -6,6 +6,7 @@ add_library(lege SHARED
     lua/table_view.cpp
     modules/enum.cpp
     modules/log.cpp
+    modules/lutf8lib.c
     modules/readonly.cpp
     modules/strict.cpp
     modules/struct.cpp
