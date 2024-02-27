@@ -10,7 +10,7 @@ namespace lege::lua {
 
 class Error : public std::exception {
 public:
-  Error(lua_State *L, const char *prefix = "Lua error");
+  Error(lua_State *L, std::string prefix = "Lua error");
   virtual ~Error() override;
 
   virtual const char *what() const noexcept override;

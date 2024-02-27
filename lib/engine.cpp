@@ -107,7 +107,7 @@ void EngineImpl::load(const char *buf, std::size_t size, const char *mode,
   // Load the buffer as a chunk
   int res = luaL_loadbufferx(L, buf, size, name, mode);
   if (res != LUA_OK) {
-    throw lua::Error(L, "Could not load chunk");
+    throw lua::Error(L, fmt::format("Could not load chunk \"{}\"", name));
   }
   // package.preload[name] = chunk
   // or registry.main = chunk if this is the main chunk
@@ -135,7 +135,9 @@ void EngineImpl::loadProject(const char *projectfile) {
   int res = luaL_loadfilex(L, projectfile, "t");
   if (res != LUA_OK) {
     lua_replace(L, -2); // Replace environment table to keep stack balanced
-    throw lua::Error(L, "Could not load project manifest");
+    throw lua::Error(L,
+                     fmt::format("Could not load project manifest from \"{}\"",
+                                 projectfile));
   }
   lua_pushvalue(L, -2); // Duplicate env table
   // -3 = env table, -2 = chunk, -1 = env table

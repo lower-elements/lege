@@ -3,13 +3,16 @@
 #include <fmt/core.h>
 
 #include "lua/error.hpp"
+#include "lua/stack.hpp"
 
 namespace lege::lua {
 
-Error::Error(lua_State *L, const char *prefix) {
-  std::size_t errlen;
-  const char *errmsg = lua_tolstring(L, -1, &errlen);
-  m_msg = fmt::format("{}: {}", prefix, std::string_view(errmsg, errlen));
+Error::Error(lua_State *L, std::string prefix) {
+  std::string_view err;
+  lua::get(L, -1, err);
+  m_msg = prefix;
+  m_msg += ": ";
+  m_msg += err;
 }
 
 Error::~Error() {}
