@@ -34,3 +34,5 @@ install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/lege_export.hpp
     DESTINATION include/lege
     )
+
+add_subdirectory(modules)
