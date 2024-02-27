@@ -10,9 +10,11 @@
 #include "engine.hpp"
 #include "lege.hpp"
 #include "lua/helpers.hpp"
+#include "sdl/helpers.hpp"
 #include "util.hpp"
 
 namespace lua = lege::lua;
+namespace sdl = lege::sdl;
 
 namespace lege {
 
@@ -57,8 +59,7 @@ EngineImpl::EngineImpl()
   lua_atpanic(L, lua::on_error);
   luaL_openlibs(L);
   if (SDL_InitSubSystem(m_sdl_subsystems) < 0) {
-    throw std::runtime_error(
-        fmt::format("Could not initialize SDL: {}", SDL_GetError()));
+    throw sdl::Error("Could not initialize SDL");
   }
 }
 
@@ -82,8 +83,7 @@ void EngineImpl::loadFile(const char *filename, const char *mode,
   std::size_t sz;
   auto contents = (char *)SDL_LoadFile(filename, &sz);
   if (!contents) {
-    throw std::runtime_error(fmt::format("could not load chunk \"{}\": {}",
-                                         filename, SDL_GetError()));
+    throw sdl::Error(fmt::format("could not load chunk \"{}\"", filename));
   }
   // We do this instead of manual memory management to avoid leaking memory if
   // load() throws an exception
