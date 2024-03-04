@@ -135,6 +135,42 @@ template <const int N> static int l_unpack(lua_State *L) {
   return N;
 }
 
+template <const int N> static int l_to_sequence(lua_State *L) {
+  auto *vec = lua::check_userdata<glm::vec<N, ElementType>>(L, 1);
+  lua_createtable(L, N, 0);
+  for (int i = 0; i < N; ++i) {
+    lua_pushnumber(L, (*vec)[i]);
+    lua_rawseti(L, -2, i + 1);
+  }
+  return 1;
+}
+
+template <const int N> static int l_to_record(lua_State *L) {
+  auto *vec = lua::check_userdata<glm::vec<N, ElementType>>(L, 1);
+  lua_createtable(L, 0, N);
+  if constexpr (N >= 1) {
+    lua::push(L, "x");
+    lua::push(L, vec->x);
+    lua_rawset(L, -3);
+  }
+  if constexpr (N >= 2) {
+    lua::push(L, "y");
+    lua::push(L, vec->y);
+    lua_rawset(L, -3);
+  }
+  if constexpr (N >= 3) {
+    lua::push(L, "z");
+    lua::push(L, vec->z);
+    lua_rawset(L, -3);
+  }
+  if constexpr (N >= 4) {
+    lua::push(L, "w");
+    lua::push(L, vec->w);
+    lua_rawset(L, -3);
+  }
+  return 1;
+}
+
 template <const int N> int open_lege_vec(lua_State *L) {
   lua_settop(L, 0);
   lua::make_metatable<glm::vec<N, ElementType>>(L);
@@ -155,6 +191,14 @@ template <const int N> int open_lege_vec(lua_State *L) {
   // Unpack a vec to separate coordinates
   lua::push(L, "unpack");
   lua_pushcfunction(L, l_unpack<N>);
+  lua_rawset(L, 2);
+  // Convert a vec to a sequence
+  lua::push(L, "to_sequence");
+  lua_pushcfunction(L, l_to_sequence<N>);
+  lua_rawset(L, 2);
+  // Convert a vec to a record
+  lua::push(L, "to_record");
+  lua_pushcfunction(L, l_to_record<N>);
   lua_rawset(L, 2);
 
   // Set the module table as the __index metamethod
