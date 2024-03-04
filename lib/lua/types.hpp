@@ -21,6 +21,11 @@ template <class T> constexpr std::string get_mt_name() {
   return fmt::format("mt.{}", lege::type_id<T>());
 }
 
+template <class T> T *check_userdata(lua_State *L, int index) {
+  std::string mt_name(get_mt_name<T>());
+  return (T *)luaL_checkudata(L, index, mt_name.c_str());
+}
+
 template <class T> void make_metatable(lua_State *L) {
   // Each C++ type has its own distinct metatable. We ensure uniqueness by
   // getting a unique hash for the specific type we're creating a metatable for
