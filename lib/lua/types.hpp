@@ -1,5 +1,5 @@
-#ifndef LIBLEGE_LUA_NEW_HPP
-#define LIBLEGE_LUA_NEW_HPP
+#ifndef LIBLEGE_LUA_TYPES_HPP
+#define LIBLEGE_LUA_TYPES_HPP
 
 #include <cstddef>
 #include <type_traits>
@@ -17,10 +17,14 @@ namespace lege::lua {
 // Todo: Determine this at configure-time?
 inline constexpr std::size_t MIN_USERDATA_ALIGNMENT = 16;
 
+template <class T> constexpr std::string get_mt_name() {
+  return fmt::format("mt.{}", lege::type_id<T>());
+}
+
 template <class T> void make_metatable(lua_State *L) {
   // Each C++ type has its own distinct metatable. We ensure uniqueness by
   // getting a unique hash for the specific type we're creating a metatable for
-  std::string mt_name(fmt::format("mt.{}", lege::type_id<T>()));
+  std::string mt_name(get_mt_name<T>());
   if (!luaL_newmetatable(L, mt_name.c_str())) {
     return; // mt already exists
   }
