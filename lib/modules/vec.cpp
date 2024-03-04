@@ -171,12 +171,83 @@ template <const int N> static int l_to_record(lua_State *L) {
   return 1;
 }
 
+template <const int N> static int l_index(lua_State *L) {
+  lua_settop(L, 2);
+  lua_pushvalue(L, lua_upvalueindex(1));
+  lua_pushvalue(L, 2);
+  lua_rawget(L, 3);
+  if (!lua_isnil(L, 4)) {
+    return 1;
+  }
+  lua_settop(L, 2);
+  auto *vec = lua::check_userdata<glm::vec<N, ElementType>>(L, 1);
+  std::string key;
+  lua::get(L, 2, key);
+  if constexpr (N >= 1) {
+    if (key == "x") {
+      lua::push(L, vec->x);
+      return 1;
+    }
+  }
+  if constexpr (N >= 2) {
+    if (key == "y") {
+      lua::push(L, vec->y);
+      return 1;
+    }
+  }
+  if constexpr (N >= 3) {
+    if (key == "z") {
+      lua::push(L, vec->z);
+      return 1;
+    }
+  }
+  if constexpr (N >= 4) {
+    if (key == "w") {
+      lua::push(L, vec->w);
+      return 1;
+    }
+  }
+  return luaL_error(L, "No field '%s' on vec%d", key.data(), N);
+}
+
+template <const int N> static int l_newindex(lua_State *L) {
+  lua_settop(L, 3);
+  auto *vec = lua::check_userdata<glm::vec<N, ElementType>>(L, 1);
+  std::string_view key;
+  lua::get(L, 2, key);
+  if constexpr (N >= 1) {
+    if (key == "x") {
+      vec->x = (ElementType)luaL_checknumber(L, 3);
+      return 0;
+    }
+  }
+  if constexpr (N >= 2) {
+    if (key == "y") {
+      vec->y = (ElementType)luaL_checknumber(L, 3);
+      return 0;
+    }
+  }
+  if constexpr (N >= 3) {
+    if (key == "z") {
+      vec->z = (ElementType)luaL_checknumber(L, 3);
+      return 0;
+    }
+  }
+  if constexpr (N >= 4) {
+    if (key == "w") {
+      vec->w = (ElementType)luaL_checknumber(L, 3);
+      return 0;
+    }
+  }
+  return luaL_error(L, "No field '%s' on vec%d", key.data(), N);
+}
+
 template <const int N> int open_lege_vec(lua_State *L) {
   lua_settop(L, 0);
   lua::make_metatable<glm::vec<N, ElementType>>(L);
 
   // Create the table of vec methods, used for both the returned module table,
-  // as well as mt.__index
+  // as well as the __index metamethod
   lua_createtable(L, 0, 3);
   // Dot product
   lua::push(L, "dot");
@@ -201,9 +272,14 @@ template <const int N> int open_lege_vec(lua_State *L) {
   lua_pushcfunction(L, l_to_record<N>);
   lua_rawset(L, 2);
 
-  // Set the module table as the __index metamethod
+  // __index metamethod, takes methods as an upvalue
   lua::push(L, "__index");
   lua_pushvalue(L, 2);
+  lua::push(L, l_index<N>, 1);
+  lua_rawset(L, 1);
+  // __newindex metamethod, takes methods as an upvalue
+  lua::push(L, "__newindex");
+  lua_pushcfunction(L, l_newindex<N>);
   lua_rawset(L, 1);
 
   // __tostring metamethod
