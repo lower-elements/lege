@@ -123,7 +123,7 @@ void EngineImpl::load(lua_CFunction cfunc, std::string_view name) {
   lua_getfield(L, -1, "preload");
   lua_replace(L, -2); // Replace package with package.preload
   lua::push(L, name);
-  lua::push(L, cfunc);
+  lua_pushcfunction(L, cfunc);
   lua_rawset(L, -3);
   lua_pop(L, 1);
 }
