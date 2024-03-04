@@ -127,6 +127,14 @@ template <const int N> static int l_eq(lua_State *L) {
   return 1;
 }
 
+template <const int N> static int l_unpack(lua_State *L) {
+  auto *vec = lua::check_userdata<glm::vec<N, ElementType>>(L, 1);
+  for (int i = 0; i < N; ++i) {
+    lua_pushnumber(L, (*vec)[i]);
+  }
+  return N;
+}
+
 template <const int N> int open_lege_vec(lua_State *L) {
   lua_settop(L, 0);
   lua::make_metatable<glm::vec<N, ElementType>>(L);
@@ -144,6 +152,10 @@ template <const int N> int open_lege_vec(lua_State *L) {
     lua_pushcfunction(L, l_cross<N>);
     lua_rawset(L, 2);
   }
+  // Unpack a vec to separate coordinates
+  lua::push(L, "unpack");
+  lua_pushcfunction(L, l_unpack<N>);
+  lua_rawset(L, 2);
 
   // Set the module table as the __index metamethod
   lua::push(L, "__index");
