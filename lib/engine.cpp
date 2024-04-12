@@ -11,7 +11,6 @@
 #include "lege.hpp"
 #include "lua/helpers.hpp"
 #include "sdl/helpers.hpp"
-#include "util.hpp"
 
 namespace lua = lege::lua;
 namespace sdl = lege::sdl;

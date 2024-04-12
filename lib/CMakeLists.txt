@@ -10,6 +10,7 @@ add_library(lege SHARED
     modules/weak.cpp
     modules/vec.cpp
     sdl/error.cpp
+    sdl/helpers.cpp
     )
 
 target_include_directories(lege PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

@@ -9,4 +9,4 @@ set_property(TARGET lege-rt PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 target_include_directories(lege-rt PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(lege-rt liblua-shared SDL2 SDL2::SDL2)
+target_link_libraries(lege-rt liblua-shared)

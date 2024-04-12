@@ -3,4 +3,10 @@
 
 #include "sdl/error.hpp"
 
+namespace lege {
+
+void setSDLLogPriority();
+
+}
+
 #endif

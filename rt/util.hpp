@@ -6,15 +6,12 @@
 #include <cxxabi.h>
 #include <exception>
 #include <memory>
-#include <new>
 #include <type_traits>
 #include <typeindex>
 
 #include <fmt/core.h>
 
 namespace lege {
-
-void setSDLLogPriority();
 
 static inline void *align_down(void *ptr, std::uintptr_t alignment) {
   return (void *)((std::uintptr_t)ptr & ~(alignment - 1));
