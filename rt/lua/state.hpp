@@ -1,6 +1,8 @@
 #ifndef LIBLEGE_LUA_STATE_HPP
 #define LIBLEGE_LUA_STATE_HPP
 
+#include <stdexcept>
+
 #include <lua.hpp>
 
 namespace lege::lua {
@@ -8,7 +10,11 @@ namespace lege::lua {
 class State {
 public:
   State(lua_State *state) : L(state) {}
-  State() : L(luaL_newstate()) {}
+  State() : L(luaL_newstate()) {
+    if (!L) {
+      throw std::runtime_error("Could not initialize Lua state");
+    }
+  }
 
   // No copy
   State(const State &) = delete;

@@ -49,23 +49,14 @@ void Engine::run() {
   }
 }
 
-EngineImpl::EngineImpl()
-    : L(luaL_newstate()), m_sdl_subsystems(SDL_INIT_VIDEO) {
+EngineImpl::EngineImpl() : Runtime(), m_sdl_subsystems(SDL_INIT_VIDEO) {
   setSDLLogPriority();
-  if (!L) {
-    throw std::runtime_error("Could not initialize Lua state");
-  }
-  lua_atpanic(L, lua::on_error);
-  luaL_openlibs(L);
   if (SDL_InitSubSystem(m_sdl_subsystems) < 0) {
     throw sdl::Error("Could not initialize SDL");
   }
 }
 
-EngineImpl::~EngineImpl() {
-  lua_close(L);
-  SDL_QuitSubSystem(m_sdl_subsystems);
-}
+EngineImpl::~EngineImpl() { SDL_QuitSubSystem(m_sdl_subsystems); }
 
 void EngineImpl::set(std::string_view option, std::string_view val) {
   // Get the options table
@@ -88,43 +79,6 @@ void EngineImpl::loadFile(const char *filename, const char *mode,
   // load() throws an exception
   std::unique_ptr<char[], void (*)(void *)> buf(contents, SDL_free);
   load(buf.get(), sz, mode, name);
-}
-
-void EngineImpl::load(const char *buf, std::size_t size, const char *mode,
-                      const char *name) {
-  // If we're loading the main chunk, put it in the registry instead of
-  // package.preload
-  if (SDL_strcmp(name, "main") == 0) {
-    lua_pushvalue(L, LUA_REGISTRYINDEX);
-  } else {
-    // Get the package.preload table
-    lua_getglobal(L, "package");
-    lua_getfield(L, -1, "preload");
-    lua_replace(L, -2); // Replace package with package.preload
-  }
-
-  // Load the buffer as a chunk
-  int res = luaL_loadbufferx(L, buf, size, name, mode);
-  if (res != LUA_OK) {
-    throw lua::Error(L, fmt::format("Could not load chunk \"{}\"", name));
-  }
-  // package.preload[name] = chunk
-  // or registry.main = chunk if this is the main chunk
-  lua_setfield(L, -2, name);
-
-  // Pop package.preload / the registry
-  lua_pop(L, 1);
-}
-
-void EngineImpl::load(lua_CFunction cfunc, std::string_view name) {
-  // Get the package.preload table
-  lua_getglobal(L, "package");
-  lua_getfield(L, -1, "preload");
-  lua_replace(L, -2); // Replace package with package.preload
-  lua::push(L, name);
-  lua_pushcfunction(L, cfunc);
-  lua_rawset(L, -3);
-  lua_pop(L, 1);
 }
 
 void EngineImpl::loadProject(const char *projectfile) {
@@ -209,13 +163,7 @@ void EngineImpl::loadProject(const char *projectfile) {
 
 void EngineImpl::setup() {
   lege::modules::register_builtins(*this);
-  lua_getfield(L, LUA_REGISTRYINDEX, "main");
-  if (lua_type(L, -1) != LUA_TFUNCTION) {
-    throw std::runtime_error("Main chunk not loaded");
-  }
-  lua_call(L, 0, 0);
+  Runtime::setup();
 }
-
-bool EngineImpl::runOnce() { return false; }
 
 } // namespace lege
