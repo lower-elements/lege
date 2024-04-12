@@ -1,9 +1,6 @@
 add_library(lege SHARED
     builtins.cpp
     engine.cpp
-    lua/error.cpp
-    lua/stack.cpp
-    lua/table_view.cpp
     modules/enum.cpp
     modules/log.cpp
     modules/lutf8lib.c
@@ -13,7 +10,6 @@ add_library(lege SHARED
     modules/weak.cpp
     modules/vec.cpp
     sdl/error.cpp
-    util.cpp
     )
 
 target_include_directories(lege PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -28,7 +24,7 @@ generate_export_header(lege
     DEFINE_NO_DEPRECATED
     )
 
-target_link_libraries(lege PRIVATE fmt glm::glm liblua-shared OpenAL::OpenAL SDL2 SDL2::SDL2)
+target_link_libraries(lege PRIVATE lege-rt fmt glm::glm liblua-shared OpenAL::OpenAL SDL2 SDL2::SDL2)
 
 install(TARGETS lege DESTINATION ${LIBRARY_INSTALL_DIR})
 install(FILES

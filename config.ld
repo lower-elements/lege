@@ -13,7 +13,7 @@ This is a beta (I.E. before v1.0.0) version of LEGE. As such, all APIs are consi
 
 format = "markdown"
 topics = {"README.md"}
-file = "lib"
+file = {"lib", "rt"}
 examples = "examples"
 
 new_type("meta", "Meta Methods", false, "param")
