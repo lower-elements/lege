@@ -42,10 +42,8 @@ void Runtime::load(const char *buf, std::size_t size, const char *mode,
   }
 
   // Load the buffer as a chunk
-  int res = luaL_loadbufferx(L, buf, size, name, mode);
-  if (res != LUA_OK) {
-    throw lua::Error(L, fmt::format("Could not load chunk \"{}\"", name));
-  }
+  L.load(buf, size, mode, name);
+
   // package.preload[name] = chunk
   // or registry.main = chunk if this is the main chunk
   lua_setfield(L, -2, name);

@@ -9,12 +9,8 @@ namespace lege::lua {
 
 class State {
 public:
+  State();
   State(lua_State *state) : L(state) {}
-  State() : L(luaL_newstate()) {
-    if (!L) {
-      throw std::runtime_error("Could not initialize Lua state");
-    }
-  }
 
   // No copy
   State(const State &) = delete;
@@ -27,15 +23,14 @@ public:
     return *this;
   }
 
-  ~State() {
-    if (L != nullptr) {
-      lua_close(L);
-    }
-  }
+  ~State();
 
   lua_State *get() & { return L; }
 
   operator lua_State *() & { return get(); }
+
+  void load(const char *buf, std::size_t size, const char *mode,
+            const char *name);
 
 private:
   lua_State *L;

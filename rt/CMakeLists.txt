@@ -1,6 +1,7 @@
 add_library(lege-rt STATIC
     lua/error.cpp
     lua/stack.cpp
+    lua/state.cpp
     lua/table_view.cpp
     runtime.cpp
     util.cpp
