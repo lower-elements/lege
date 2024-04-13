@@ -11,6 +11,7 @@ State::State() : L(luaL_newstate()) {
   if (!L) {
     throw std::runtime_error("Could not initialize Lua state");
   }
+  lua_atpanic(L, lua::on_error);
 }
 
 State::~State() {

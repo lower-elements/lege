@@ -12,10 +12,7 @@ namespace lua = lege::lua;
 
 namespace lege {
 
-Runtime::Runtime() : L() {
-  lua_atpanic(L, lua::on_error);
-  luaL_openlibs(L);
-}
+Runtime::Runtime() : L() { luaL_openlibs(L); }
 
 Runtime::~Runtime() {}
 
