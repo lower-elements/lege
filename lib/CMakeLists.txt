@@ -9,8 +9,6 @@ add_library(lege SHARED
     modules/struct.cpp
     modules/weak.cpp
     modules/vec.cpp
-    sdl/error.cpp
-    sdl/helpers.cpp
     )
 
 target_include_directories(lege PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -25,7 +23,7 @@ generate_export_header(lege
     DEFINE_NO_DEPRECATED
     )
 
-target_link_libraries(lege PRIVATE lege-rt fmt glm::glm liblua-shared OpenAL::OpenAL SDL2 SDL2::SDL2)
+target_link_libraries(lege PRIVATE lege-engine lege-rt fmt glm::glm liblua-shared OpenAL::OpenAL SDL2 SDL2::SDL2)
 
 install(TARGETS lege DESTINATION ${LIBRARY_INSTALL_DIR})
 install(FILES

@@ -76,6 +76,7 @@ if (LuaJIT_FOUND)
 endif()
 
 # Build liblege and the lege command line utility
+add_subdirectory(engine)
 add_subdirectory(rt)
 add_subdirectory(lib)
 add_subdirectory(cli)
