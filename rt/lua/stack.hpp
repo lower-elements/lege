@@ -74,6 +74,17 @@ static inline lua_Number &arg(lua_State *L, int index, lua_Number &val) {
   return val;
 }
 
+#ifdef LUAJIT_VERSION
+template <class T> T *get_cdata(lua_State *L, int index) {
+  // 10 = cdata:
+  // https://luajit.freelists.narkive.com/rUtQhJVZ/accessing-ffi-cdata-from-the-lua-c-api
+  if (lua_type(L, index) != 10) {
+    return nullptr;
+  }
+  return (T *)lua_topointer(L, index);
+}
+#endif
+
 static inline bool &arg(lua_State *L, int index, bool &val) {
   luaL_checktype(L, index, LUA_TBOOLEAN);
   val = static_cast<bool>(lua_toboolean(L, index));
@@ -123,6 +134,15 @@ static inline lua_State *&arg(lua_State *L, int index, lua_State *&val) {
 }
 
 TableView &arg(lua_State *L, int index, TableView &val);
+
+#ifdef LUAJIT_VERSION
+template <class T> T &arg_cdata(lua_State *L, int index) {
+  if (lua_type(L, index) != 10) {
+    luaL_typerror(L, index, "cdata");
+  }
+  return *(T *)lua_topointer(L, index);
+}
+#endif
 
 static inline lua_Number &opt_arg(lua_State *L, int index, lua_Number &val,
                                   lua_Number def) {
@@ -213,6 +233,17 @@ static inline void push(lua_State *L, Nil) { lua_pushnil(L); }
 static inline void push(lua_State *L, lua_Number val) {
   lua_pushnumber(L, val);
 }
+
+#ifdef LUAJIT_VERSION
+template <class T> T &opt_arg_cdata(lua_State *L, int index, T &def) {
+  if (lua_isnoneornil(L, index)) {
+    return def;
+  } else if (lua_type(L, index) != 10) {
+    luaL_typerror(L, index, "cdata");
+  }
+  return *(T *)lua_topointer(L, index);
+}
+#endif
 
 static inline void push(lua_State *L, bool val) { lua_pushboolean(L, val); }
 
