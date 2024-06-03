@@ -2,7 +2,7 @@
 #include <memory>
 #include <string_view>
 
-#include <SDL.h>
+#include <SDL_rwops.h>
 #include <fmt/core.h>
 #include <lua.hpp>
 
@@ -49,14 +49,9 @@ void Engine::run() {
   }
 }
 
-EngineImpl::EngineImpl() : Runtime(), m_sdl_subsystems(SDL_INIT_VIDEO) {
-  setSDLLogPriority();
-  if (SDL_InitSubSystem(m_sdl_subsystems) < 0) {
-    throw sdl::Error("Could not initialize SDL");
-  }
-}
+EngineImpl::EngineImpl() : GameEngine(), Runtime() {}
 
-EngineImpl::~EngineImpl() { SDL_QuitSubSystem(m_sdl_subsystems); }
+EngineImpl::~EngineImpl() {}
 
 void EngineImpl::set(std::string_view option, std::string_view val) {
   // Get the options table

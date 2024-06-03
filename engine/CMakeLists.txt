@@ -1,4 +1,5 @@
 add_library(lege-engine STATIC
+    game_engine.cpp
     sdl/error.cpp
     sdl/helpers.cpp
     )

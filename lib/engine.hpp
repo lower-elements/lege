@@ -6,11 +6,12 @@
 #include <SDL.h>
 #include <lua.hpp>
 
+#include "game_engine.hpp"
 #include "runtime.hpp"
 
 namespace lege {
 
-class EngineImpl : public Runtime {
+class EngineImpl : public engine::GameEngine, public Runtime {
 public:
   EngineImpl();
   ~EngineImpl();
@@ -24,9 +25,6 @@ public:
   void loadProject(const char *projectfile);
 
   void setup();
-
-private:
-  Uint32 m_sdl_subsystems;
 };
 
 } // namespace lege
