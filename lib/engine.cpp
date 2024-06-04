@@ -62,6 +62,17 @@ void EngineImpl::set(std::string_view option, std::string_view val) {
   lua_pop(L, 1);
 }
 
+std::string EngineImpl::get(std::string_view option) {
+  // Get the options table
+  luaL_newmetatable(L, "lege.options");
+  lua::push(L, option);
+  lua_rawget(L, -2);
+  std::string value;
+  lua::get(L, -1, value);
+  lua_pop(L, 2);
+  return value;
+}
+
 void EngineImpl::loadFile(const char *filename, const char *mode,
                           const char *name) {
   // Todo: investigate using mmap() here
@@ -157,8 +168,21 @@ void EngineImpl::loadProject(const char *projectfile) {
 }
 
 void EngineImpl::setup() {
+  lege::modules::register_types(L);
   lege::modules::register_builtins(*this);
+
+  // Register the `window` global
+  lua::new_userdata<SDL_Window *>(L, getWindow());
+  lua_setglobal(L, "window");
+
+  // This needs to be done before Runtime::setup(), so that the user has a
+  // chance to change it
+  SDL_SetWindowTitle(getWindow(), get("lege.app_name").c_str());
+
   Runtime::setup();
+
+  // Everything's loaded, present the window
+  SDL_ShowWindow(getWindow());
 }
 
 } // namespace lege

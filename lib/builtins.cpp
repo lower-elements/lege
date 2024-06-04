@@ -5,6 +5,11 @@
 
 namespace lege::modules {
 
+// Prototypes for functions used to register types
+extern void register_window_type(lua_State *L);
+
+void register_types(lua_State *L) { register_window_type(L); }
+
 void register_builtins(EngineImpl &e) {
   e.load((const char *)luaJIT_BC_c_libs, luaJIT_BC_c_libs_SIZE, "b",
          "lege.c_libs");

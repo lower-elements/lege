@@ -8,6 +8,7 @@ add_library(lege SHARED
     modules/strict.cpp
     modules/struct.cpp
     modules/weak.cpp
+    modules/window.cpp
     modules/vec.cpp
     )
 

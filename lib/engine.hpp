@@ -17,6 +17,7 @@ public:
   ~EngineImpl();
 
   void set(std::string_view option, std::string_view val);
+  std::string get(std::string_view option);
 
   // Uses SDL_rwops to load files
   void loadFile(const char *filename, const char *mode = "t",

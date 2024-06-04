@@ -13,8 +13,11 @@ public:
   void initSdlSubSystem(Uint32 subsystems);
   void quitSdlSubSystem(Uint32 subsystems);
 
+  SDL_Window *getWindow() { return m_win; }
+
 private:
-  Uint32 m_sdl_subsystems;
+  SDL_Window *m_win = nullptr;
+  Uint32 m_sdl_subsystems = 0;
 };
 
 } // namespace lege::engine

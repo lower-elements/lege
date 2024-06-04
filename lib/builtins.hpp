@@ -18,8 +18,9 @@ int luaopen_utf8(lua_State *L);
 
 namespace lege::modules {
 
+void register_types(lua_State *L);
 void register_builtins(EngineImpl &e);
 
-}
+} // namespace lege::modules
 
 #endif
