@@ -26,6 +26,8 @@ public:
   void loadProject(const char *projectfile);
 
   void setup();
+  [[nodiscard]] bool runOnce();
+  void run();
 };
 
 } // namespace lege

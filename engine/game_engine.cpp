@@ -36,4 +36,8 @@ void GameEngine::quitSdlSubSystem(Uint32 subsystems) {
   m_sdl_subsystems &= ~subsystems;
 }
 
+void GameEngine::setup() {}
+
+bool GameEngine::runOnce() { return false; }
+
 } // namespace lege::engine

@@ -175,6 +175,8 @@ void EngineImpl::setup() {
   lua::new_userdata<SDL_Window *>(L, getWindow());
   lua_setglobal(L, "window");
 
+  GameEngine::setup();
+
   // This needs to be done before Runtime::setup(), so that the user has a
   // chance to change it
   SDL_SetWindowTitle(getWindow(), get("lege.app_name").c_str());
@@ -183,6 +185,13 @@ void EngineImpl::setup() {
 
   // Everything's loaded, present the window
   SDL_ShowWindow(getWindow());
+}
+
+bool EngineImpl::runOnce() {
+  if (!GameEngine::runOnce()) {
+    return false;
+  }
+  return Runtime::runOnce();
 }
 
 } // namespace lege

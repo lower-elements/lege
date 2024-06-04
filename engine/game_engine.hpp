@@ -15,6 +15,9 @@ public:
 
   SDL_Window *getWindow() { return m_win; }
 
+  void setup();
+  [[nodiscard]] bool runOnce();
+
 private:
   SDL_Window *m_win = nullptr;
   Uint32 m_sdl_subsystems = 0;
