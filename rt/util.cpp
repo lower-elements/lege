@@ -8,7 +8,7 @@ extern "C" {
 
 #include "util.hpp"
 
-/**
+/*
  * Used by lib/modules/lutf8lib.c (LEGE port of PUC Lua 5.4's utf8 module)
  */
 extern "C" std::size_t lege_utf8_encode(lua_Unsigned codepoint,
