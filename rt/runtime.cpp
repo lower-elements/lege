@@ -68,6 +68,6 @@ void Runtime::setup() {
   lua_call(L, 0, 0);
 }
 
-bool Runtime::runOnce() { return false; }
+bool Runtime::runOnce() { return true; }
 
 } // namespace lege
