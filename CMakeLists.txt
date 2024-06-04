@@ -21,6 +21,8 @@ elseif(MSVC)
 endif()
 
 # Dependencies
+find_package(SteamAudio REQUIRED)
+
 include(FetchContent)
 
 FetchContent_Declare(
@@ -47,18 +49,6 @@ FetchContent_Declare(
     FIND_PACKAGE_ARGS
 )
 
-set(ALSOFT_UTILS OFF CACHE INTERNAL "ALSOFT_UTILS")
-set(ALSOFT_NO_CONFIG_UTIL ON CACHE INTERNAL "ALSOFT_NO_CONFIG_UTIL")
-set(ALSOFT_EXAMPLES OFF CACHE INTERNAL "ALSOFT_EXAMPLES")
-FetchContent_Declare(
-    OpenAL
-	URL https://github.com/kcat/openal-soft/archive/refs/tags/1.23.1.tar.gz
-        URL_HASH MD5=190a60118236644b78488ccab26ebfdf
-	TLS_VERIFY ON
-	DOWNLOAD_EXTRACT_TIMESTAMP true
-        FIND_PACKAGE_ARGS
-        )
-
 FetchContent_Declare(
   SDL2
   URL https://libsdl.org/release/SDL2-2.28.5.tar.gz
@@ -68,7 +58,7 @@ FetchContent_Declare(
   FIND_PACKAGE_ARGS NAMES SDL2 COMPONENTS SDL2main
 )
 
-FetchContent_MakeAvailable(fmt glm LuaJIT OpenAL SDL2)
+FetchContent_MakeAvailable(fmt glm LuaJIT SDL2)
 if (LuaJIT_FOUND)
     add_library(liblua-shared INTERFACE)
     target_include_directories(liblua-shared INTERFACE ${LUA_INCLUDE_DIR})
