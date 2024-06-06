@@ -18,6 +18,7 @@ void register_builtins(EngineImpl &e) {
   e.load(luaopen_lege_readonly, "lege.readonly");
   e.load(luaopen_lege_strict, "lege.strict");
   e.load(luaopen_lege_struct, "lege.struct");
+  e.load(luaopen_lege_task, "lege.task");
   e.load(luaopen_lege_weak, "lege.weak");
   e.load(luaopen_lege_vec2, "lege.vec2");
   e.load(luaopen_lege_vec3, "lege.vec3");

@@ -3,6 +3,7 @@ add_library(lege-rt STATIC
     lua/stack.cpp
     lua/state.cpp
     lua/table_view.cpp
+    modules/task.cpp
     modules/weak.cpp
     runtime.cpp
     util.cpp

@@ -9,6 +9,7 @@ int luaopen_lege_log(lua_State *L);
 int luaopen_lege_readonly(lua_State *L);
 int luaopen_lege_strict(lua_State *L);
 int luaopen_lege_struct(lua_State *L);
+int luaopen_lege_task(lua_State *L);
 int luaopen_lege_weak(lua_State *L);
 int luaopen_lege_vec2(lua_State *L);
 int luaopen_lege_vec3(lua_State *L);
