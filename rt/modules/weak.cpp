@@ -1,7 +1,10 @@
+#include <cstddef>
+
 #include <lua.hpp>
-#include <stddef.h>
 
 #include "modules/weak.hpp"
+
+namespace lege::weak {
 
 /**
  * Create tables with weak references to their keys and / or values.
@@ -91,7 +94,7 @@ static int l_weak_tostring(lua_State *L) {
     lua_setfield(L, -2, "__tostring");                                         \
   }
 
-void ll_require_weak(lua_State *L) {
+void require(lua_State *L) {
   // Register metatables
   make_mt(k);
   make_mt(kv);
@@ -99,7 +102,9 @@ void ll_require_weak(lua_State *L) {
 }
 
 extern "C" int luaopen_lege_weak(lua_State *L) {
-  ll_require_weak(L);
+  require(L);
   lua_pushcfunction(L, l_weak);
   return 1;
 }
+
+} // namespace lege::weak
