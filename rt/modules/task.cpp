@@ -1,11 +1,10 @@
+#include "modules/task.hpp"
 #include "lua/helpers.hpp"
 #include "modules/weak.hpp"
 
 namespace lua = lege::lua;
 namespace weak = lege::weak;
 
-#define ENV_NAME "lege.task.env"
-#define MT_NAME "lege.task.mt"
 // this is useful for more than just metatables
 #define luaL_newregistrytable(L, name) (luaL_newmetatable((L), (name)))
 
@@ -54,7 +53,7 @@ static int l_current(lua_State *L) {
 }
 
 static int l_tostring(lua_State *L) {
-  luaL_checkudata(L, 1, MT_NAME);
+  luaL_checkudata(L, 1, LEGE_TASK_MT_NAME);
   lua_settop(L, 1);
 
   lua_getfenv(L, 1);
@@ -67,7 +66,7 @@ static int l_tostring(lua_State *L) {
 }
 
 static int l_index(lua_State *L) {
-  luaL_checkudata(L, 1, MT_NAME);
+  luaL_checkudata(L, 1, LEGE_TASK_MT_NAME);
   lua_settop(L, 2);
 
   // Fields come from the environment table
@@ -87,7 +86,7 @@ static int l_index(lua_State *L) {
 }
 
 static int l_newindex(lua_State *L) {
-  luaL_checkudata(L, 1, MT_NAME);
+  luaL_checkudata(L, 1, LEGE_TASK_MT_NAME);
 
   const char *field = lua_tostring(L, 2);
   luaL_callmeta(L, 1, "__tostring");
@@ -108,7 +107,7 @@ static void make_task(lua_State *L, int nameindex, int funcindex) {
   lua_pushvalue(L, funcindex);
   lua_xmove(L, co, 1);
 
-  if (luaL_newmetatable(L, MT_NAME)) {
+  if (luaL_newmetatable(L, LEGE_TASK_MT_NAME)) {
     // Set up metatable
     lua_pushliteral(L, "__tostring");
     lua_pushcfunction(L, l_tostring);
@@ -223,7 +222,7 @@ static const luaL_Reg TASK_FUNCS[]{{"get_support_tables", l_get_support_tables},
                                    {nullptr, nullptr}};
 
 static void make_support_tables(lua_State *L) {
-  if (luaL_newregistrytable(L, ENV_NAME)) {
+  if (luaL_newregistrytable(L, LEGE_TASK_ENV_NAME)) {
     lua_pushliteral(L, "by_thread");
     weak::new_kv(L);
     lua_rawset(L, -3);
@@ -238,9 +237,14 @@ static void make_support_tables(lua_State *L) {
     lua_newtable(L);
     lua_rawset(L, -3);
 
+    // Tasks that are dead, and need to be cleaned up
+    lua_pushliteral(L, "dead");
+    weak::new_k(L);
+    lua_rawset(L, -3);
+
     // Tasks spawned from the main thread
     lua_pushliteral(L, "toplevels");
-    lua_newtable(L);
+    weak::new_k(L);
     lua_rawset(L, -3);
   }
 }

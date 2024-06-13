@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <exception>
 #include <memory>
 #include <string_view>
@@ -6,6 +7,7 @@
 #include <lua.hpp>
 
 #include "lua/helpers.hpp"
+#include "modules/task.hpp"
 #include "runtime.hpp"
 
 namespace lua = lege::lua;
@@ -68,6 +70,65 @@ void Runtime::setup() {
   lua_call(L, 0, 0);
 }
 
-bool Runtime::runOnce() { return true; }
+bool Runtime::runOnce() {
+  lua_settop(L, 0); // Clear stack
+
+  // Run pending tasks
+  luaL_getmetatable(L, LEGE_TASK_ENV_NAME);
+  lua_pushliteral(L, "dead");
+  lua_rawget(L, 1);
+  lua_pushliteral(L, "pending");
+  lua_rawget(L, 1);
+
+  // Loop over pending tasks and run them
+  std::size_t numAliveTasks = 0;
+  for (lua_pushnil(L); lua_next(L, 3); lua_settop(L, 4)) {
+    // 1 = env, 2 = dead, 3 = pending, 4 = task
+    ++numAliveTasks;
+    lua_settop(L, 4); // Pop `true' value
+
+    lua_getfenv(L, 4);
+    lua_pushliteral(L, "co");
+    lua_rawget(L, -2);
+    lua_State *co = lua_tothread(L, -1);
+    switch (lua_resume(co, 0)) {
+    case LUA_OK:
+      // Coroutine finished, is now dead
+
+      // dead[task] = true
+      lua_pushvalue(L, 4);
+      lua_pushboolean(L, true);
+      lua_rawset(L, 2);
+      break;
+    case LUA_YIELD:
+      // Coroutine yielded, is now either blocked or still pending
+      break;
+    default:
+      throw lua::Error(co, "Error running coroutine");
+    }
+  }
+
+  // Remove dead tasks
+  for (lua_pushnil(L); lua_next(L, 2); lua_settop(L, 4)) {
+    // 1 = env, 2 = dead, 3 = pending, 4 = task
+
+    // pending[task] = nil
+    lua_pushvalue(L, 4);
+    lua_pushnil(L);
+    lua_rawset(L, 3);
+    // dead is automatically cleaned up because it's a weak-keyed table
+  }
+
+  lua_settop(L, 1);
+  lua_pushliteral(L, "blocked");
+  lua_rawget(L, 1);
+  // Count the blocked tasks
+  // Todo: cache this, update the cache when tasks are blocked / scheduled
+  for (lua_pushnil(L); lua_next(L, 2); lua_settop(L, 3)) {
+    ++numAliveTasks;
+  }
+
+  return numAliveTasks > 0;
+}
 
 } // namespace lege
