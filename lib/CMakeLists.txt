@@ -11,6 +11,8 @@ add_library(lege SHARED
     modules/vec.cpp
     )
 
+target_compile_definitions(lege PRIVATE -DGLM_ENABLE_EXPERIMENTAL)
+
 target_include_directories(lege PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(lege PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR})
 
