@@ -42,6 +42,14 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
+    Libuv
+    GIT_REPOSITORY https://github.com/libuv/libuv
+    GIT_TAG v1.48.0
+    GIT_SHALLOW ON
+    FIND_PACKAGE_ARGS
+)
+
+FetchContent_Declare(
     LuaJIT
     GIT_REPOSITORY https://github.com/9chu/LuaJIT-cmake
     GIT_SHALLOW ON
@@ -59,7 +67,7 @@ FetchContent_Declare(
   FIND_PACKAGE_ARGS NAMES SDL2 COMPONENTS SDL2main
 )
 
-FetchContent_MakeAvailable(fmt glm LuaJIT SDL2)
+FetchContent_MakeAvailable(fmt glm Libuv LuaJIT SDL2)
 if (LuaJIT_FOUND)
     add_library(liblua-shared INTERFACE)
     target_include_directories(liblua-shared INTERFACE ${LUA_INCLUDE_DIR})
