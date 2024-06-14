@@ -5,6 +5,7 @@
 
 #include <fmt/core.h>
 #include <lua.hpp>
+#include <uv.h>
 
 #include "lua/helpers.hpp"
 #include "modules/task.hpp"
@@ -14,7 +15,21 @@ namespace lua = lege::lua;
 
 namespace lege {
 
-Runtime::Runtime() : L() { luaL_openlibs(L); }
+Runtime::Runtime() : L() {
+  // Check that the loaded libuv is compatible with the version we were compiled
+  // with
+  unsigned uvLibVersion = uv_version();
+  // We ignore the patch number as these should be semver compatible
+  if ((uvLibVersion & ~0xff) != (UV_VERSION_HEX & ~0xff)) {
+    throw std::runtime_error(
+        fmt::format("Incompatible version of libuv: compiled with {}.{}.{}{}, "
+                    "but loaded version is {}",
+                    UV_VERSION_MAJOR, UV_VERSION_MINOR, UV_VERSION_PATCH,
+                    UV_VERSION_SUFFIX, uv_version_string()));
+  }
+
+  luaL_openlibs(L);
+}
 
 Runtime::~Runtime() {}
 
