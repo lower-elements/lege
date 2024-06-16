@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>LEGE Documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>LEGE</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Meta_Methods">Meta Methods</a></li>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/lege.c_libs.html">lege.c_libs</a></li>
+  <li><a href="../modules/lege.enum.html">lege.enum</a></li>
+  <li><a href="../modules/lege.log.html">lege.log</a></li>
+  <li><a href="../modules/lege.readonly.html">lege.readonly</a></li>
+  <li><a href="../modules/lege.strict.html">lege.strict</a></li>
+  <li><a href="../modules/lege.struct.html">lege.struct</a></li>
+  <li><strong>lege.weak</strong></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/README.md.html">README</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/enums.lua.html">enums.lua</a></li>
+  <li><a href="../examples/logging.lua.html">logging.lua</a></li>
+  <li><a href="../examples/readonly_tables..lua.html">readonly_tables..lua</a></li>
+  <li><a href="../examples/strict_structs.lua.html">strict_structs.lua</a></li>
+  <li><a href="../examples/using_strict.lua.html">using_strict.lua</a></li>
+  <li><a href="../examples/weak_tables.lua.html">weak_tables.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>lege.weak</code></h1>
+<p>Create tables with weak references to their keys and / or values.</p>
+<p> This module provides a convenience function for creating weak tables, which
+ are described in <a href="https://www.lua.org/manual/5.1/manual.html#2.10.2">section 2.10.2 of the Lua 5.1 reference
+ manual</a>.</p>
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">local weak = require &quot;lege.weak&quot;
+
+-- Construct a table with both weak keys and weak values (&apos;kv&apos;)
+local t = weak &apos;kv&apos; {}
+print(t) --&gt; weak table kv: 0xdeadbeaf
+print(getmetatable(t).__mode) --&gt; kv
+</pre>
+    </ul>
+
+
+<h2><a href="#Meta_Methods">Meta Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#__tostring">__tostring</a></td>
+	<td class="summary">Convert a weak table to a string.</td>
+	</tr>
+</table>
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#returns...">returns... ()</a></td>
+	<td class="summary">
+
+</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#weak_constructor">weak_constructor (tbl)</a></td>
+	<td class="summary">Construct a weak table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#weak">weak (mode)</a></td>
+	<td class="summary">Create a weak table.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Meta_Methods"></a>Meta Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "__tostring"></a>
+    <strong>__tostring</strong>
+    </dt>
+    <dd>
+    Convert a weak table to a string.
+ The returned string includes the table's mode and address.
+
+
+    <h3>param:</h3>
+    <ul>
+        <li><span class="parameter">weak_tbl</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The weak table to convert to a string
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "returns..."></a>
+    <strong>returns... ()</strong>
+    </dt>
+    <dd>
+
+
+
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A function, <a href="../modules/lege.weak.html">weak</a>, for constructing weak tables
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "weak_constructor"></a>
+    <strong>weak_constructor (tbl)</strong>
+    </dt>
+    <dd>
+    Construct a weak table.
+ This function is returned from <a href="../modules/lege.weak.html">weak</a>, and allows specifying the table to
+ make weak, according to the mode specified by the first parameter to <a href="../modules/lege.weak.html">weak</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tbl</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The table to make weak
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        The passed parameter, now a weak table
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "weak"></a>
+    <strong>weak (mode)</strong>
+    </dt>
+    <dd>
+
+<p>Create a weak table.
+ The mode parameter can be one of:</p>
+
+<ul>
+    <li>'k': Table has weak keys</li>
+    <li>'v': Table has weak values</li>
+    <li>'kv': Table has both weak keys and weak values</li>
+</ul>
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">mode</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The weak mode
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A function, <a href="../modules/lege.weak.html#weak_constructor">weak_constructor</a>, for specifying the table to make
+ weak
+    </ol>
+
+    <h3>Raises:</h3>
+    If the specified mode is invalid
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2024-06-16 21:08:39 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

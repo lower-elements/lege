@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>LEGE Documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>LEGE</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Under_Active_and_Early_Development">Under Active and Early Development </a></li>
+<li><a href="#Easy_to_Use">Easy to Use </a></li>
+<li><a href="#Cross_Platform">Cross Platform </a></li>
+<li><a href="#Powerful_and_Extensible">Powerful and Extensible </a></li>
+<li><a href="#Documentation">Documentation </a></li>
+<li><a href="#License">License </a></li>
+</ul>
+
+
+<h2>Topics</h2>
+<ul class="">
+  <li><strong>README</strong></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/lege.c_libs.html">lege.c_libs</a></li>
+  <li><a href="../modules/lege.enum.html">lege.enum</a></li>
+  <li><a href="../modules/lege.log.html">lege.log</a></li>
+  <li><a href="../modules/lege.readonly.html">lege.readonly</a></li>
+  <li><a href="../modules/lege.strict.html">lege.strict</a></li>
+  <li><a href="../modules/lege.struct.html">lege.struct</a></li>
+  <li><a href="../modules/lege.weak.html">lege.weak</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/enums.lua.html">enums.lua</a></li>
+  <li><a href="../examples/logging.lua.html">logging.lua</a></li>
+  <li><a href="../examples/readonly_tables..lua.html">readonly_tables..lua</a></li>
+  <li><a href="../examples/strict_structs.lua.html">strict_structs.lua</a></li>
+  <li><a href="../examples/using_strict.lua.html">using_strict.lua</a></li>
+  <li><a href="../examples/weak_tables.lua.html">weak_tables.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+
+<h1>LEGE - The Lower Elements Game Engine</h1>
+
+<p><a href="https://www.gnu.org/licenses/lgpl-3.0.en.html"><img src="https://img.shields.io/github/license/lower-elements/lege" alt="License: LGPL3"/></a>
+<a href="https://lower-elements.github.io/lege"><img src="https://img.shields.io/badge/documentation-view%20Online-brightgreen" alt="Documentation"/></a>
+<a href="https://github.com/lower-elements/lege/issues"><img src="https://img.shields.io/github/issues/lower-elements/lege" alt="GitHub issues"/></a></p>
+
+
+<p>LEGE is a <a href="https://en.wikipedia.org/wiki/Free_software">free software</a>, <a href="https://en.wikipedia.org/wiki/Open_source">open source</a> game engine for building <a href="https://en.wikipedia.org/wiki/Audio_game&lt;https://en.wikipedia.org/wiki/Audio_game">audio games</a>. Its goals, in order, are to
+be:</p>
+
+<ol>
+    <li><a href="#easy-to-use">Easy to use</a></li>
+    <li><a href="#cross-platform">Cross platform</a></li>
+    <li><a href="#powerful-and-extensable">Powerful and extensible</a></li>
+    <li><a href="#blazing-fast">Blazing fast!</a></li>
+</ol>
+
+
+<p><a name="Under_Active_and_Early_Development"></a></p>
+<h2>Under Active and Early Development</h2>
+
+<p>This software is under active development and is in an early state. Everything described in this readme is aspirational,
+and not necessarily representative of LEGE as it stands today. If you'd like to help, we love getting <a href="https://github.com/lower-elements/lege/pull/new">pull
+requests</a>.</p>
+
+
+<p><a name="Easy_to_Use"></a></p>
+<h2>Easy to Use</h2>
+
+<p>LEGE uses the <a href="https://lua.org">Lua programming language</a>: "a powerful, efficient, lightweight, embeddable scripting language." It
+is easy to get started building LEGE games, even if you're quite new to programming. The knowledge you gain writing LEGE
+applications in Lua can also be used to write standalone Lua applications, and we embrace and promote Lua best practices
+and existing convensions.</p>
+
+
+<p><a name="Cross_Platform"></a></p>
+<h2>Cross Platform</h2>
+
+<p>LEGE leverages well established, portable C libraries including <a href="https://libsdl.org">SDL</a> for input and rendering, and <a href="https://openal.org">OpenAL</a>
+(specifically <a href="https://openal-soft.org">OpenAL Soft</a>) for high quality, 3 dimensional audio. It is compatible with all major desktop
+OS platforms: Windows, macOS, Linux, *BSD, etc. I also plan to put effort into making LEGE work on mobile devices where
+possible, such as on Android and iOS. Audio gaming should be accessible to all!</p>
+
+<p>Distributing a LEGE project is as easy as running <code>lege dist</code>, and publishing the built distribution (.zip / .exe
+installer on Windows, .app / .dmg on macOS, Flatpak / Snap / Deb / whatever package format you choose on Linux).</p>
+
+
+<p><a name="Powerful_and_Extensible"></a></p>
+<h2>Powerful and Extensible</h2>
+
+<p>LEGE is designed to be highly extensible, offering the flexibility to use existing Lua or C modules, as well as
+third-party providers for additional engine functionalities like map loading, networking, game chat, and updates. You
+can even create your own modules to enhance the engine's capabilities. </p>
+
+<p>Want to use the Discord SDK in your game? It's as easy as:</p>
+
+
+<pre>
+lege <span class="global">package</span> add discord-sdk
+</pre>
+
+
+
+<pre>
+<span class="comment">-- file: init.lua
+</span><span class="keyword">local</span> discord = <span class="global">require</span> <span class="string">"discord-sdk"</span>
+</pre>
+
+
+<h1>Blazing Fast!</h1>
+
+<p>LEGE utilizes <a href="https://luajit.org">LuaJIT</a> by default, which employs just-in-time compilation to translate Lua code into native
+machine code, resulting in performance nearly on par with C. The core engine is written in C to ensure optimal
+performance. Our aim is to strike the perfect balance between speed and ease of use.</p>
+
+
+
+<p><a name="Documentation"></a></p>
+<h2>Documentation</h2>
+
+<p>View the LEGE manual, API documentation, and examples on <a href="https://lower-elements.github.io/lege">Github Pages</a></p>
+
+<p><a name="License"></a></p>
+<h2>License</h2>
+
+<p>LEGE is distributed under the terms of the <a href="https://www.gnu.org/licenses/lgpl-3.0.en.html">GNU Lesser General Public License 3.0</a>:</p>
+
+<p>Copyright (C) 2023  Michael Connor Buchan <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;m&#105;&#x6b;&#101;&#x79;&#64;&#x62;&#108;&#x69;n&#100;&#x63;&#111;&#x6d;&#112;&#x75;&#116;&#x69;&#110;&#x67;.&#111;&#x72;&#103;">&#x6d;&#105;&#x6b;&#101;&#x79;&#64;&#x62;l&#105;&#x6e;&#100;&#x63;&#111;&#x6d;&#112;&#x75;t&#105;&#x6e;&#103;&#x2e;&#111;&#x72;&#103;</a></p>
+
+<p>This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; version 3 of the License.</p>
+
+<p>This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+details.</p>
+
+<p>You should have received a copy of the GNU Lesser General Public License along with this library; if not, see
+<a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2024-06-16 21:08:39 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

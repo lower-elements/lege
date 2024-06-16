@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>LEGE Documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>LEGE</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Meta_Methods">Meta Methods</a></li>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/lege.c_libs.html">lege.c_libs</a></li>
+  <li><a href="../modules/lege.enum.html">lege.enum</a></li>
+  <li><a href="../modules/lege.log.html">lege.log</a></li>
+  <li><a href="../modules/lege.readonly.html">lege.readonly</a></li>
+  <li><a href="../modules/lege.strict.html">lege.strict</a></li>
+  <li><strong>lege.struct</strong></li>
+  <li><a href="../modules/lege.weak.html">lege.weak</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/README.md.html">README</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/enums.lua.html">enums.lua</a></li>
+  <li><a href="../examples/logging.lua.html">logging.lua</a></li>
+  <li><a href="../examples/readonly_tables..lua.html">readonly_tables..lua</a></li>
+  <li><a href="../examples/strict_structs.lua.html">strict_structs.lua</a></li>
+  <li><a href="../examples/using_strict.lua.html">using_strict.lua</a></li>
+  <li><a href="../examples/weak_tables.lua.html">weak_tables.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>lege.struct</code></h1>
+<p>Allows the creation of strict structs.</p>
+<p> <a href="https://lua-users.org/wiki/StrictStructs">Strict structs</a> defined by this module have strict field
+ access (I.E. trying to get or set the value of a field that is undefined for
+ a given struct type is an error).</p>
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">local struct = require &quot;lege.struct&quot;
+
+-- Define a Point struct, to hold x and y coordinates
+local Point = struct &apos;Point&apos; {
+x = 0,
+y = 0,
+}
+
+-- Create a Point
+local p = Point {
+x = 10,
+y = 20,
+}
+print(p) --&gt; struct Point: 0xdeadbeaf
+assert(p.x == 10)
+assert(p.y == 20)
+-- Trying to access or modify an undefined field is an error
+-- print(p.z) --&gt; Error: no field &apos;z&apos; on struct Point
+
+-- When constructing a new struct, unspecified fields get their default
+values p = Point {x=1} assert(p.x == 1) assert(p.y == 0)
+
+-- Struct fields can be modified as you&apos;d expect, but don&apos;t set them to nil!
+p.y = 42
+assert(p.y == 42)
+</pre>
+    </ul>
+
+
+<h2><a href="#Meta_Methods">Meta Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#__tostring">__tostring</a></td>
+	<td class="summary">Convert a struct type to a human-readable string.</td>
+	</tr>
+</table>
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#returns...">returns... ()</a></td>
+	<td class="summary">
+
+</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_struct_err_nf">_struct_err_nf (self, key)</a></td>
+	<td class="summary">Raises an error caused by access to an undefined struct field.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#new_instance">new_instance (instance)</a></td>
+	<td class="summary">Create a new struct type.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#struct_body">struct_body (fields)</a></td>
+	<td class="summary">Define a struct's body.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#struct">struct (string)</a></td>
+	<td class="summary">Create a struct type.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Meta_Methods"></a>Meta Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "__tostring"></a>
+    <strong>__tostring</strong>
+    </dt>
+    <dd>
+    Convert a struct type to a human-readable string.
+ Currently we merely output the struct's name and address.
+
+
+    <h3>param:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../modules/lege.struct.html#struct">struct</a></span>
+         The struct to convert to a string
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "returns..."></a>
+    <strong>returns... ()</strong>
+    </dt>
+    <dd>
+
+
+
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A function <a href="../modules/lege.struct.html">struct</a> that Allows you to define structs
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_struct_err_nf"></a>
+    <strong>_struct_err_nf (self, key)</strong>
+    </dt>
+    <dd>
+    Raises an error caused by access to an undefined struct field.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../modules/lege.struct.html#struct">struct</a></span>
+         The struct instance
+        </li>
+        <li><span class="parameter">key</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The key that was undefined
+        </li>
+    </ul>
+
+
+    <h3>Raises:</h3>
+    An error indicating which field was undefined, and on which struct
+ type
+
+
+
+</dd>
+    <dt>
+    <a name = "new_instance"></a>
+    <strong>new_instance (instance)</strong>
+    </dt>
+    <dd>
+    Create a new struct type.
+ This is used as a closure returned from <a href="../modules/lege.struct.html#struct_body">struct_body</a>, and creates a new
+ instance of a struct. Any unset fields are set to their default value as
+ defined by the <a href="../modules/lege.struct.html">struct</a> type.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">instance</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Table to use as the struct instance, including any
+ pre-initialized fields
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        The passed instance, modified to be a struct of the correct
+ type
+    </ol>
+
+    <h3>Raises:</h3>
+    If instance contains undefined fields for the struct type
+
+
+
+</dd>
+    <dt>
+    <a name = "struct_body"></a>
+    <strong>struct_body (fields)</strong>
+    </dt>
+    <dd>
+    Define a struct's body.
+ A closure over a struct's name returned from <a href="../modules/lege.struct.html">struct</a> which creates a new
+ metatable for the struct type, and allows you to define what fields and
+ default values the struct has.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">fields</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Fields and default values for the new struct type
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A closure <a href="../modules/lege.struct.html#new_instance">new_instance</a> over the struct type's name and fields to
+ create a new instance of the defined struct type
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "struct"></a>
+    <strong>struct (string)</strong>
+    </dt>
+    <dd>
+    Create a struct type.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">string</span>
+         name The struct's type name (used when converting to string)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">A</span></span>
+        closure over name <a href="../modules/lege.struct.html#struct_body">struct_body</a> to allow you to specify the
+ struct's fields and default values
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2024-06-16 21:08:39 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>LEGE Documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>LEGE</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Meta_Methods">Meta Methods</a></li>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/lege.c_libs.html">lege.c_libs</a></li>
+  <li><strong>lege.enum</strong></li>
+  <li><a href="../modules/lege.log.html">lege.log</a></li>
+  <li><a href="../modules/lege.readonly.html">lege.readonly</a></li>
+  <li><a href="../modules/lege.strict.html">lege.strict</a></li>
+  <li><a href="../modules/lege.struct.html">lege.struct</a></li>
+  <li><a href="../modules/lege.weak.html">lege.weak</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/README.md.html">README</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/enums.lua.html">enums.lua</a></li>
+  <li><a href="../examples/logging.lua.html">logging.lua</a></li>
+  <li><a href="../examples/readonly_tables..lua.html">readonly_tables..lua</a></li>
+  <li><a href="../examples/strict_structs.lua.html">strict_structs.lua</a></li>
+  <li><a href="../examples/using_strict.lua.html">using_strict.lua</a></li>
+  <li><a href="../examples/weak_tables.lua.html">weak_tables.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>lege.enum</code></h1>
+<p>Allows the creation of enumerations.</p>
+<p> Lege enums are immutable, meaning trying to add or change enum values after
+ their creation is an error, and detect accesses to undefined enum values.</p>
+
+<p> Values can have any underlying type, but their keys must be strings.</p>
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">local enum = require &quot;lege.enum&quot;
+
+-- Define an enum
+local Color = enum &apos;Color&apos; {
+-- Strings with numeric keys define enum values
+&quot;red&quot;,
+&quot;green&quot;,
+&quot;blue&quot;,
+-- String keys allow you to define a different value
+dark_orange = &quot;red&quot;,
+-- Values don&apos;t have to be strings, but keys do
+black = 0,
+}
+
+print(Color) --&gt; enum Color: 0xdeadbeaf
+
+assert(Color.red == &quot;red&quot;)
+assert(Color.green == &quot;green&quot;)
+assert(Color.blue == &quot;blue&quot;)
+assert(Color.dark_orange == &quot;red&quot;)
+assert(Color.black == 0)
+
+-- Trying to access an undefined enum value is an error
+-- print(Color.white) --&gt; Error: no value &apos;white&apos; on enum &apos;Color&apos;
+-- Likewise trying to set a value is an error
+-- Color.White = 255 --&gt; Error: attempt to set value &apos;White&apos; on enum &apos;Color&apos;
+</pre>
+    </ul>
+
+
+<h2><a href="#Meta_Methods">Meta Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#__newindex">__newindex</a></td>
+	<td class="summary">Raises an error caused by trying to modify an enum value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#__tostring">__tostring</a></td>
+	<td class="summary">Convert an enum type to a human-readable string.</td>
+	</tr>
+</table>
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#returns...">returns... ()</a></td>
+	<td class="summary">
+
+</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#_enum_err_nf">_enum_err_nf (self, key)</a></td>
+	<td class="summary">Raises an error caused by access to an undefined enum value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#enum_body">enum_body (values)</a></td>
+	<td class="summary">Define an enum's values.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#enum">enum (name)</a></td>
+	<td class="summary">Create an enum type.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Meta_Methods"></a>Meta Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "__newindex"></a>
+    <strong>__newindex</strong>
+    </dt>
+    <dd>
+    Raises an error caused by trying to modify an enum value.
+
+
+    <h3>param:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../modules/lege.enum.html#enum">enum</a></span>
+         The enum instance
+        </li>
+        <li><span class="parameter">key</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The key that was undefined
+        </li>
+        <li><span class="parameter">value</span>
+         The value that you tried to set
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "__tostring"></a>
+    <strong>__tostring</strong>
+    </dt>
+    <dd>
+    Convert an enum type to a human-readable string.
+ Currently we merely output the enum's name and address.
+
+
+    <h3>param:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../modules/lege.enum.html#enum">enum</a></span>
+         The enum to convert to a string
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "returns..."></a>
+    <strong>returns... ()</strong>
+    </dt>
+    <dd>
+
+
+
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A function <a href="../modules/lege.enum.html">enum</a> for creating new enumeration types.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "_enum_err_nf"></a>
+    <strong>_enum_err_nf (self, key)</strong>
+    </dt>
+    <dd>
+    Raises an error caused by access to an undefined enum value.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../modules/lege.enum.html#enum">enum</a></span>
+         The enum instance
+        </li>
+        <li><span class="parameter">key</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The key that was undefined
+        </li>
+    </ul>
+
+
+    <h3>Raises:</h3>
+    An error indicating which value was undefined, and on which enum
+ type
+
+
+
+</dd>
+    <dt>
+    <a name = "enum_body"></a>
+    <strong>enum_body (values)</strong>
+    </dt>
+    <dd>
+    Define an enum's values.
+ A closure over an enum's name returned from <a href="../modules/lege.enum.html">enum</a> which creates a new
+ metatable for the enum type, and allows you to define what
+ values the struct has.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">values</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Values for the new struct type
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../modules/lege.enum.html#enum">enum</a></span>
+        The new enum type
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "enum"></a>
+    <strong>enum (name)</strong>
+    </dt>
+    <dd>
+    Create an enum type.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The enum's type name (used when converting to string)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A closure over name <a href="../modules/lege.enum.html#enum_body">enum_body</a> to allow you to specify the
+ enum's values
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2024-06-16 21:08:39 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

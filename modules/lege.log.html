@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>LEGE Documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>LEGE</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/lege.c_libs.html">lege.c_libs</a></li>
+  <li><a href="../modules/lege.enum.html">lege.enum</a></li>
+  <li><strong>lege.log</strong></li>
+  <li><a href="../modules/lege.readonly.html">lege.readonly</a></li>
+  <li><a href="../modules/lege.strict.html">lege.strict</a></li>
+  <li><a href="../modules/lege.struct.html">lege.struct</a></li>
+  <li><a href="../modules/lege.weak.html">lege.weak</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/README.md.html">README</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/enums.lua.html">enums.lua</a></li>
+  <li><a href="../examples/logging.lua.html">logging.lua</a></li>
+  <li><a href="../examples/readonly_tables..lua.html">readonly_tables..lua</a></li>
+  <li><a href="../examples/strict_structs.lua.html">strict_structs.lua</a></li>
+  <li><a href="../examples/using_strict.lua.html">using_strict.lua</a></li>
+  <li><a href="../examples/weak_tables.lua.html">weak_tables.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>lege.log</code></h1>
+<p>Logging facilities for LEGE programs.</p>
+<p> This module uses <a href="https://wiki.libsdl.org/SDL3/CategoryLog">SDL's logging
+ facilities</a> to write log messages to the appropriate place for each
+ platform.</p>
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">local log = require &quot;lege.log&quot;
+
+log.info(&quot;Log priority is currently set to &quot; .. log.get_priority())
+log.verbose(&quot;So you won&apos;t see this&quot;)
+log.set_priority(&quot;verbose&quot;)
+log.info(&quot;Log priority is now set to &quot; .. log.get_priority())
+
+log.verbose(&quot;The game&apos;s still running&quot;)
+log.debug(&quot;Starting frobnication process ...&quot;)
+log.info(&quot;Logged in as xx_DankMemer69_xx&quot;)
+log.warn(&quot;That username is stupid&quot;)
+log.error(&quot;The server rejected your username, as it is too stupid&quot;)
+log.critical(&quot;Cannot continue with a user this stupid&quot;)
+
+local msg_type = &quot;info&quot;
+log.message(msg_type, &quot;Yes, we&apos;re talking about *you*&quot;)
+</pre>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#get_priority">get_priority ()</a></td>
+	<td class="summary">Get the lowest log priority at which log messages are output.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_priority">set_priority (priority)</a></td>
+	<td class="summary">Set the lowest log priority at which log messages are output.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#message">message (priority, message)</a></td>
+	<td class="summary">Log a message at the specified priority.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#verbose">verbose (message)</a></td>
+	<td class="summary">Log a message at the verbose priority.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#debug">debug (message)</a></td>
+	<td class="summary">Log a message at the debug priority.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#info">info (message)</a></td>
+	<td class="summary">Log a message at the info priority.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#warn">warn (message)</a></td>
+	<td class="summary">Log a message at the warn priority.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#error">error (message)</a></td>
+	<td class="summary">Log a message at the error priority.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#critical">critical (message)</a></td>
+	<td class="summary">Log a message at the critical priority.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "get_priority"></a>
+    <strong>get_priority ()</strong>
+    </dt>
+    <dd>
+    Get the lowest log priority at which log messages are output.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        The current SDL log priority
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../modules/lege.log.html#set_priority">set_priority</a></li>
+         <li><a href="https://wiki.libsdl.org/SDL2/SDL_LogGetPriority">SDL_LogGetPriority</a></li>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "set_priority"></a>
+    <strong>set_priority (priority)</strong>
+    </dt>
+    <dd>
+    Set the lowest log priority at which log messages are output.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">priority</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The new SDL log priority
+        </li>
+    </ul>
+
+
+    <h3>Raises:</h3>
+    if priority is not a valid log message priority
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../modules/lege.log.html#get_priority">get_priority</a></li>
+         <li><a href="https://wiki.libsdl.org/SDL2/SDL_LogSetPriority">SDL_LogSetPriority</a></li>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "message"></a>
+    <strong>message (priority, message)</strong>
+    </dt>
+    <dd>
+    Log a message at the specified priority.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">priority</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The priority of the log message
+        </li>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The message to log
+        </li>
+    </ul>
+
+
+    <h3>Raises:</h3>
+    if priority is not a valid log message priority
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="https://wiki.libsdl.org/SDL2/SDL_LogMessage">SDL_LogMessage</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "verbose"></a>
+    <strong>verbose (message)</strong>
+    </dt>
+    <dd>
+    Log a message at the verbose priority.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The message to log
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="https://wiki.libsdl.org/SDL2/SDL_LogVerbose">SDL_LogVerbose</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "debug"></a>
+    <strong>debug (message)</strong>
+    </dt>
+    <dd>
+    Log a message at the debug priority.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The message to log
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="https://wiki.libsdl.org/SDL2/SDL_LogDebug">SDL_LogDebug</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "info"></a>
+    <strong>info (message)</strong>
+    </dt>
+    <dd>
+    Log a message at the info priority.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The message to log
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="https://wiki.libsdl.org/SDL2/SDL_LogInfo">SDL_LogInfo</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "warn"></a>
+    <strong>warn (message)</strong>
+    </dt>
+    <dd>
+    Log a message at the warn priority.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The message to log
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="https://wiki.libsdl.org/SDL2/SDL_LogWarn">SDL_LogWarn</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "error"></a>
+    <strong>error (message)</strong>
+    </dt>
+    <dd>
+    Log a message at the error priority.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The message to log
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="https://wiki.libsdl.org/SDL2/SDL_LogError">SDL_LogError</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "critical"></a>
+    <strong>critical (message)</strong>
+    </dt>
+    <dd>
+    Log a message at the critical priority.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The message to log
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="https://wiki.libsdl.org/SDL2/SDL_LogCritical">SDL_LogCritical</a>
+    </ul>
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2024-06-16 21:08:39 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
