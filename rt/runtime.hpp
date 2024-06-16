@@ -3,6 +3,8 @@
 
 #include <string_view>
 
+#include <uv.h>
+
 #include "lua/state.hpp"
 
 namespace lege {
@@ -22,6 +24,7 @@ public:
   bool runOnce();
 
 protected:
+  uv_loop_t m_loop;
   lua::State L;
 };
 

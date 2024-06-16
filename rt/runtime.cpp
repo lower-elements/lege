@@ -28,10 +28,17 @@ Runtime::Runtime() : L() {
                     UV_VERSION_SUFFIX, uv_version_string()));
   }
 
+  // Initialize the event loop
+  int res = uv_loop_init(&m_loop);
+  if (res < 0) {
+    throw std::runtime_error(
+        fmt::format("Could not initialize event loop: {}", uv_strerror(res)));
+  }
+
   luaL_openlibs(L);
 }
 
-Runtime::~Runtime() {}
+Runtime::~Runtime() { uv_loop_close(&m_loop); }
 
 void Runtime::loadFile(const char *, const char *, const char *) {
   // Fixme: Implement this! It is overridden by EngineImpl, as it uses
@@ -86,6 +93,13 @@ void Runtime::setup() {
 }
 
 bool Runtime::runOnce() {
+  // Run the libuv event loop
+  int res = uv_run(&m_loop, UV_RUN_NOWAIT);
+  if (res < 0) {
+    throw std::runtime_error(
+        fmt::format("Error running event loop: {}", uv_strerror(res)));
+  }
+
   lua_settop(L, 0); // Clear stack
 
   // Run pending tasks
